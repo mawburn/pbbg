@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, CSSProperties } from 'react'
 import cn from 'classnames'
 
-import keyToNumber from '../../utils/keyToNumber'
+import ktn from '../../utils/keyToNumber'
 
 import s from './styles.module.scss'
 
@@ -14,12 +14,8 @@ interface SectorWindowProps {
 
 const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
   const getBg = (id: string) => ({
-    backgroundPosition: `${keyToNumber(id, -1522, 1522)}px ${keyToNumber(
-      id,
-      -435,
-      435
-    )}px`,
-    backgroundSize: `${keyToNumber(id, 225, 800)}px`,
+    backgroundPosition: `${ktn(id, -1522, 1522)}px ${ktn(id, -435, 435)}px`,
+    backgroundSize: `${ktn(id, 225, 800)}px`,
   })
 
   const [bg, setBg] = useState<CSSProperties>(getBg(sectorId))
