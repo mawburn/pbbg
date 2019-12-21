@@ -14,7 +14,7 @@ interface SectorWindowProps {
 
 const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
   const getBg = (id: string) => ({
-    backgroundPosition: `${ktn(id, -1522, 1522)}px ${ktn(id, -435, 435)}px`,
+    backgroundPosition: `${ktn(id, -1680, 1680)}px ${ktn(id, -480, 480)}px`,
     backgroundSize: `${ktn(id, 225, 800)}px`,
   })
 
