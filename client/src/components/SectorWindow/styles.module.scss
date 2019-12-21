@@ -2,10 +2,15 @@ $spaceColor: #141414;
 
 .cont {
   border-radius: 4px;
-  display: block;
   margin: 0 auto;
   height: 14rem;
   width: 18rem;
+  
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 .space {
