@@ -1,0 +1,40 @@
+.cont {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 1.5rem;
+  margin: 0 auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.dir {
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  
+  
+  img,
+  .placeholder {
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+.left {
+  transform: rotate(-90deg);
+}
+
+.right {
+  transform: rotate(90deg);
+}
+
+.down {
+  transform: rotate(180deg);
+}

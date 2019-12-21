@@ -1,0 +1,13 @@
+$spaceColor: #141414;
+
+.cont {
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
+  height: 14rem;
+  width: 18rem;
+}
+
+.space {
+  background: $spaceColor url('./backgrounds/space.png');
+}
