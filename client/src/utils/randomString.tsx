@@ -1,4 +1,4 @@
-export default function makeid(length: number): string {
+export default function randomString(length: number): string {
   let result = ''
 
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

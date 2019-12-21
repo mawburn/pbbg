@@ -2,4 +2,12 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0 auto;
   max-width: 360px;
+  height: 640px;
+  max-height: 640px;
+  
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.4fr 0.5fr 1.1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
