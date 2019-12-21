@@ -17,14 +17,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 3rem;
-  width: 3rem;
+  cursor: pointer;
+  margin: 0.5rem;
+  height: 100%;
+  width: 100%;
   
   
   img,
   .placeholder {
     height: 2rem;
     width: 2rem;
+  }
+  
+  &:focus {
+    fill: #fbd8ff;
+    outline: 0;
   }
 }
 
