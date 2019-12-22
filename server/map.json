@@ -1,379 +1,315 @@
 {
-  "id": "FEHhVD1",
-  "sectors": [
-    [
-      {
-        "id": "HvUu95J",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          {
-            "id": "n3VglAo",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 184592
-          },
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "YDVaXBs",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "SHpDbW4",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "qoC4Dvu",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    ],
-    [
-      {
-        "id": "LCovcyx",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "vAuMYSK",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "mOGdwPu",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "gYd8veG",
-        "objects": [
-          {
-            "id": "ImJ0GiE",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 512160
-          },
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    ],
-    [
-      {
-        "id": "Hgq4nuc",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "EpxEYcy",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "yweslPx",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "cfqaSJ5",
-        "objects": [
-          null,
-          {
-            "id": "g6A9BP3",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 678234
-          },
-          null,
-          null,
-          null,
-          null,
-          {
-            "id": "anrRsQk",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 851254
-          },
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    ],
-    [
-      {
-        "id": "fLxpSWX",
-        "objects": [
-          null,
-          {
-            "id": "ROCEq0S",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 196104
-          },
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "J9uaDDq",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "AyLuyB5",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      {
-        "id": "C1UtoAJ",
-        "objects": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          {
-            "id": "Gt3YrSM",
-            "type": "ore",
-            "subType": "crystal",
-            "quantity": 110334
-          },
-          null
-        ]
-      }
+  "system": {
+    "id": "0LHdIly",
+    "sectors": [
+      [
+        {
+          "id": "hMQy5rx",
+          "celestial": null,
+          "objects": [
+            null,
+            {
+              "id": "dBO7A6T",
+              "type": "ore",
+              "quantity": 349656
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "DrtU151",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "id": "y1J663d",
+              "type": "ore",
+              "quantity": 300289
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "8mvl8s4",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "Df3YOau",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      [
+        {
+          "id": "nWw86oe",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "crz73WJ",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "XFdNqKo",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "9KK4Gun",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      [
+        {
+          "id": "YKAdE43",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "d7wm17o",
+          "celestial": "station",
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "8ag86Bh",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "im7SatE",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      [
+        {
+          "id": "yLP1LW7",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "id": "aEYPicb",
+              "type": "ore",
+              "quantity": 426618
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "Coh2XOZ",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "iDKAQ3k",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "id": "7pLK4lQ",
+          "celestial": null,
+          "objects": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
     ]
-  ]
+  }
 }
