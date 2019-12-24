@@ -1,8 +1,10 @@
 import React, { FC, useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import useFetch from '../../hooks/useFetch'
 import SectorWindow from '../SectorWindow'
 import Movement from '../Movement'
+import { MapActions } from '../../reducers/map'
 
 import randomString from '../../utils/randomString'
 
@@ -10,16 +12,21 @@ import s from './styles.module.scss'
 
 const App: FC = () => {
   const [sectorId, setSectorId] = useState<string>(randomString(10))
-  
-  const [res, callFetch] = useFetch('GET', '/map')
-  
+  const [fetchState, callFetch] = useFetch('GET', '/map')
+  const dispatch = useDispatch()
+
   useEffect(() => {
     callFetch()
   }, [callFetch])
-  
+
   useEffect(() => {
-    console.log(res)
-  }, [res])
+    if (!fetchState.isFetching && fetchState.response && dispatch) {
+      dispatch({
+        type: MapActions.LOAD,
+        payload: fetchState.response,
+      })
+    }
+  }, [fetchState, dispatch])
 
   const _handleMove = () => {
     setSectorId(randomString(10))

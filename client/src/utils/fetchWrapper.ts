@@ -7,8 +7,11 @@ export type FetchMethods = 'GET' | 'POST' | 'PUT' | 'DEL'
  * Private Function
  */
 const bodyToString = (body?: string | object): string | undefined =>
-body === undefined ? undefined :
-  typeof body === 'string' ? body : JSON.stringify(body)
+  body === undefined
+    ? undefined
+    : typeof body === 'string'
+    ? body
+    : JSON.stringify(body)
 
 /**
  * Generic Fetch Wrapper
@@ -135,12 +138,12 @@ const fetchWithErrors = (
   if (ip) {
     headers['X-Forwarded-For'] = ip
   }
-  
+
   const fetchOpts: any = {
     ...opts,
     headers: new Headers({ ...headers }),
   }
-  
+
   return fetch(endpoint, fetchOpts)
     .then(res => {
       const contentType = res.headers.get('Content-Type')
