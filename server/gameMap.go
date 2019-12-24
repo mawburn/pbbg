@@ -10,8 +10,8 @@ import (
 type Object struct {
 	Id       string  `json:"id"`
 	Type     string  `json:"type"`
-	Size     *string `json:"size"`
-	Quantity uint32  `json:"quantity"`
+	Size     string  `json:"size"`
+	Quantity *uint32 `json:"quantity"`
 }
 
 type Celestial struct {
@@ -21,21 +21,21 @@ type Celestial struct {
 }
 
 type Sector struct {
-	Id        string `json:"id"`
-	Celestial *Celestial `json:"celstials"`
-	Objects   []Object `json:"objects"`
+	Id        string     `json:"id"`
+	Celestial *Celestial `json:"celestial"`
+	Objects   []*Object  `json:"objects"`
 }
 
 type System struct {
-	Id      string   `json:"id"`
-	Sectors []Sector `json:"sectors"`
+	Id      string     `json:"id"`
+	Sectors [][]Sector `json:"sectors"`
 }
 
 type GameMap struct {
-  Systems []System `json:"systems"`
+	Systems []System `json:"systems"`
 }
 
-func getGameMap() GameMap {
+func gameMap() GameMap {
 	mapFile, err := os.Open("./static/map.json")
 
 	if err != nil {
@@ -48,11 +48,11 @@ func getGameMap() GameMap {
 
 	var gameMap GameMap
 
-  umErr := json.Unmarshal(byteValue, &gameMap)
-  
-  if err != nil {
-    fmt.Println(umErr)
-  }
+	umErr := json.Unmarshal(byteValue, &gameMap)
+
+	if umErr != nil {
+		fmt.Println(umErr)
+	}
 
 	return gameMap
 }

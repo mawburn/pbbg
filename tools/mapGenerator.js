@@ -27,10 +27,12 @@ function sectorObjCreator() {
     let _object = null
 
     if (_shouldPopulate === 1) {
+      const sizeRan = randomNum(4)
+      
       _object = {
         id: randomString(7),
+        size: sizeRan === 2 ? 'lg' : sizeRan === 1 ? 'md' : 'sm',
         type: 'ore',
-        quantity: Math.floor(Math.random() * (1000000 - 100) + 100),
       }
     }
 
@@ -49,9 +51,17 @@ for (let row = 0; row < ROW_COUNT; row++) {
   const sectorRow = []
 
   for (let col = 0; col < COL_COUNT; col++) {
-    const _celRan = randomNum(50)
-    const celestial = _celRan === 1 ? 'station' : _celRan === 2 ? 'planet' : null
-    
+    const _celRan = randomNum(10)
+    const celestial = _celRan === 1 ? {
+      id: randomString(7),
+      name: randomString(3),
+      type: 'station'
+    } : _celRan === 2 ? {
+      id: randomString(7),
+      name: randomString(3),
+      type: 'planet'
+    } : null
+
     const sector = {
       id: randomString(7),
       celestial,
@@ -66,7 +76,9 @@ for (let row = 0; row < ROW_COUNT; row++) {
 
 fs.writeFileSync(
   `./output/system-${system.id}.json`,
-  JSON.stringify({system: [system]}, null, 2),
+  JSON.stringify({
+    systems: [system]
+  }, null, 2),
   err => {
     if (err) throw new Error(err)
   }

@@ -4,26 +4,22 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
-	graphql "github.com/graph-gophers/graphql-go"
-	"github.com/graph-gophers/graphql-go/relay"
 )
 
-type query struct{}
-
-func (_ *query) Hello() string { return "Hello, world!" }
-
 func main() {
-	s := `
-    type Query {
-      hello: String!
+
+	http.Handle("/map", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    header := w.Header()
+    header.Add("Access-Control-Allow-Origin", "*")
+    header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+    header.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+  
+    if r.Method == "OPTIONS" {
+      w.WriteHeader(http.StatusOK)
+      return
     }
-  `
-
-	schema := graphql.MustParseSchema(s, &query{})
-
-	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    jsonMap, err := json.Marshal(getGameMap())
+    
+		jsonMap, err := json.Marshal(gameMap())
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -34,6 +30,5 @@ func main() {
 		w.Write(jsonMap)
 	}))
 
-	http.Handle("/query", &relay.Handler{Schema: schema})
 	log.Fatal(http.ListenAndServe(":4242", nil))
 }

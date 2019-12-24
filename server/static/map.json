@@ -1,315 +1,369 @@
 {
-  "systems": [{
-    "id": "0LHdIly",
-    "sectors": [
-      [
-        {
-          "id": "hMQy5rx",
-          "celestial": null,
-          "objects": [
-            null,
-            {
-              "id": "dBO7A6T",
-              "type": "ore",
-              "quantity": 349656
+  "systems": [
+    {
+      "id": "JFUUpGs",
+      "sectors": [
+        [
+          {
+            "id": "Z4Rmz5o",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "Y5DkulE",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "T3H7Sbr",
+            "celestial": {
+              "id": "M6XiL3i",
+              "name": "0jW",
+              "type": "station"
             },
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "DrtU151",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            {
-              "id": "y1J663d",
-              "type": "ore",
-              "quantity": 300289
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "97hEBF9",
+            "celestial": {
+              "id": "Ly8rQP8",
+              "name": "u92",
+              "type": "planet"
             },
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "8mvl8s4",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "Df3YOau",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        }
-      ],
-      [
-        {
-          "id": "nWw86oe",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "crz73WJ",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "XFdNqKo",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "9KK4Gun",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        }
-      ],
-      [
-        {
-          "id": "YKAdE43",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "d7wm17o",
-          "celestial": "station",
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "8ag86Bh",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "im7SatE",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        }
-      ],
-      [
-        {
-          "id": "yLP1LW7",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            {
-              "id": "aEYPicb",
-              "type": "ore",
-              "quantity": 426618
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "LsmvvZ7",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null
+            ]
+          },
+          {
+            "id": "c4HyELJ",
+            "celestial": null,
+            "objects": [
+              null,
+              {
+                "id": "K4WUrWr",
+                "size": "sm",
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "Q4KQDhl",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ],
+        [
+          {
+            "id": "h3ryBwg",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "e1rFU0Q",
+                "size": "sm",
+                "type": "ore"
+              },
+              null
+            ]
+          },
+          {
+            "id": "zrRSnay",
+            "celestial": {
+              "id": "FjYgqGi",
+              "name": "U6Z",
+              "type": "planet"
             },
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "Coh2XOZ",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "iDKAQ3k",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "id": "7pLK4lQ",
-          "celestial": null,
-          "objects": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        }
+            "objects": [
+              null,
+              null,
+              null,
+              {
+                "id": "q80jrTE",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "mZKPnWC",
+            "celestial": {
+              "id": "YVBy2oh",
+              "name": "vNx",
+              "type": "planet"
+            },
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "FQaz7C1",
+                "size": "sm",
+                "type": "ore"
+              },
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "IR1IAkY",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ],
+        [
+          {
+            "id": "5wjyf8c",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "tKb4dEa",
+                "size": "lg",
+                "type": "ore"
+              },
+              null,
+              {
+                "id": "NAl5Wfi",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null
+            ]
+          },
+          {
+            "id": "MKaQZsP",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "lMiaxkb",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "zukjyn3",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ],
+        [
+          {
+            "id": "TENVKXz",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              {
+                "id": "1mJ1z5u",
+                "size": "md",
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "DPr4E5h",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "id": "FUON3P4",
+                "size": "sm",
+                "type": "ore"
+              }
+            ]
+          },
+          {
+            "id": "6Z4weg2",
+            "celestial": {
+              "id": "ZDMSlQD",
+              "name": "Ywo",
+              "type": "planet"
+            },
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "TO8XeXr",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
       ]
-    ]
-  }]
+    }
+  ]
 }

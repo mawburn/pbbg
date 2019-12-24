@@ -1,5 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
+import useFetch from '../../hooks/useFetch'
 import SectorWindow from '../SectorWindow'
 import Movement from '../Movement'
 
@@ -9,6 +10,16 @@ import s from './styles.module.scss'
 
 const App: FC = () => {
   const [sectorId, setSectorId] = useState<string>(randomString(10))
+  
+  const [res, callFetch] = useFetch('GET', '/map')
+  
+  useEffect(() => {
+    callFetch()
+  }, [callFetch])
+  
+  useEffect(() => {
+    console.log(res)
+  }, [res])
 
   const _handleMove = () => {
     setSectorId(randomString(10))
