@@ -1,5 +1,5 @@
 {
-  "system": {
+  "systems": [{
     "id": "0LHdIly",
     "sectors": [
       [
@@ -311,5 +311,5 @@
         }
       ]
     ]
-  }
+  }]
 }

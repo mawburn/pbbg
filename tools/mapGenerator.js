@@ -66,7 +66,7 @@ for (let row = 0; row < ROW_COUNT; row++) {
 
 fs.writeFileSync(
   `./output/system-${system.id}.json`,
-  JSON.stringify({system: system}, null, 2),
+  JSON.stringify({system: [system]}, null, 2),
   err => {
     if (err) throw new Error(err)
   }
