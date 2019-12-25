@@ -4,7 +4,7 @@ import mapReducer from './map'
 import sectorReducer, { Sector } from './sector'
 
 export interface AppState {
-  map: GameMap.Map,
+  map: GameMap.Map
   sector: Sector
 }
 

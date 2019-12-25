@@ -22,8 +22,8 @@ function randomString(length) {
 function sectorObjCreator() {
   const _objects = []
 
-  for (let i = 0; i < 12; i++) {
-    const _shouldPopulate = randomNum(25)
+  for (let i = 0; i < 6; i++) {
+    const _shouldPopulate = randomNum(15)
     let _object = null
 
     if (_shouldPopulate === 1) {

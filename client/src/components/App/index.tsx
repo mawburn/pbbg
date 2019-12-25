@@ -34,9 +34,15 @@ const App: FC = () => {
 
   return (
     <div className={s.app}>
-      <SectorWindow type="space" sectorId={sectorId} />
-      <div />
-      <Movement handleMove={_handleMove} />
+      {!fetchState.response ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <SectorWindow type="space" sectorId={sectorId} />
+          <div />
+          <Movement handleMove={_handleMove} />
+        </>
+      )}
     </div>
   )
 }

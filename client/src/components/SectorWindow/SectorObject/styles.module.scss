@@ -1,0 +1,47 @@
+.btn {
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0.5rem;
+  height: calc(100% - 1rem);
+  width: calc(100% - 1rem);
+  
+  img {
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+  }
+}
+
+@for $i from 1 through 30 {
+  $speed: ($i * 10 + 80s);
+
+  .speed-#{$i} {
+		animation: rotation $speed infinite linear;
+	}
+  
+  .speed-#{$i}-rev {
+		animation: revRotation $speed infinite linear;
+	}
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes revRotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
+  }
+}
