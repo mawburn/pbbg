@@ -6,30 +6,82 @@
         [
           {
             "id": "NRfMdcS",
-            "celestial": null,
+            "celestial": {
+              "id": "cweYrzz1",
+              "name": "fe30",
+              "type": "planet"
+            },
             "objects": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
+              {
+                "id": "5nvADHX1",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "5nvADHX2",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "5nvADHX3",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "5nvADHX4",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "5nvADHX5",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "5nvADHX6",
+                "size": "md",
+                "type": "ore"
+              }
             ]
           },
           {
             "id": "5oOisAP",
-            "celestial": null,
+            "celestial": {
+              "id": "cweYrzz2",
+              "name": "fe33",
+              "type": "station"
+            },
             "objects": [
-              null,
               {
-                "id": "5nvADHX",
+                "id": "15nvADHX1",
                 "size": "md",
                 "type": "ore"
               },
-              null,
-              null,
-              null,
-              null
+              {
+                "id": "25nvADHX2",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "35nvADHX3",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "45nvADHX4",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "55nvADHX5",
+                "size": "md",
+                "type": "ore"
+              },
+              {
+                "id": "6n 5nvADHX6",
+                "size": "md",
+                "type": "ore"
+              }
             ]
           },
           {
