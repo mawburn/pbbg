@@ -1,5 +1,5 @@
 const config = {
-  api: 'http://api.universeone.win',
+  api: '//api.universeone.win',
 }
 
 export default config
