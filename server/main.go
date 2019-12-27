@@ -54,6 +54,7 @@ func initApi() (*chi.Mux, *redis.Client) {
 	)
 
 	r.Get("/map", getGameMap)
+	r.Post("/move", playerMove)
 
 	return r, client
 }

@@ -11,7 +11,7 @@ import (
 type MapObject struct {
 	Id   string `json:"id"`
 	Type string `json:"type"`
-	Max uint32 `json:"max"`
+	Max  uint32 `json:"max"`
 }
 
 type MapCelestial struct {

@@ -30,7 +30,7 @@ const useFetch = <T>(
   const controller = useRef(new AbortController())
 
   const callFetch = async (requestPayload?: Object) => {
-    if (!state.isFetching && state.errors.length === 0 && !state.response) {
+    if (!state.isFetching) {
       setState({ ...state, isFetching: true })
 
       try {

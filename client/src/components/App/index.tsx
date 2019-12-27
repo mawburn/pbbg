@@ -16,8 +16,14 @@ const App: FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    callFetch()
-  }, [callFetch])
+    if (
+      !fetchState.response &&
+      !fetchState.isFetching &&
+      fetchState.errors.length === 0
+    ) {
+      callFetch()
+    }
+  }, [callFetch, fetchState])
 
   useEffect(() => {
     if (!fetchState.isFetching && fetchState.response && dispatch) {

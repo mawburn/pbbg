@@ -23,7 +23,16 @@ namespace GameMap {
     sectors: Sector[][]
   }
 
+  export interface Coords {
+    [key: string]: {
+      system: number
+      x: number
+      y: number
+    }
+  }
+
   export interface Map {
+    coords: Coords
     systems: System[]
   }
 }

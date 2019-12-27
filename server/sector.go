@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/go-redis/redis/v7"
 )
@@ -30,6 +29,53 @@ type Sector struct {
 }
 
 func getSector(id string) {
+
+}
+
+func updatePlayers(c *redis.Client, sectorId string, add []Player, remove []Player) {
+	sectorByte, err := c.Get(sectorId).Bytes()
+
+	if err != nil {
+		panic(err)
+	}
+
+	var s Sector
+
+	umErr := json.Unmarshal(sectorByte, &s)
+
+	if umErr != nil {
+		panic(umErr)
+	}
+
+	var newPlayers []Player
+
+	for _, sp := range s.Players {
+		if !containsPlayer(sp, remove) {
+			newPlayers = append(newPlayers, Player{Id: sp.Id})
+		}
+	}
+
+	for _, a := range add {
+		newPlayers = append(newPlayers, a)
+	}
+
+	j, _ := json.Marshal(s)
+
+	redisErr := c.Set(s.Id, j, 0).Err()
+
+	if redisErr != nil {
+		panic(redisErr)
+	}
+}
+
+func containsPlayer(p SectorPlayer, list []Player) bool {
+	for _, li := range list {
+		if li.Id == p.Id {
+			return true
+		}
+	}
+
+	return false
 }
 
 func generateSectors(c *redis.Client) {
@@ -38,12 +84,12 @@ func generateSectors(c *redis.Client) {
 	for _, sys := range m.Systems {
 		for _, row := range sys.Sectors {
 			for _, col := range row {
-        s := Sector{
-          Id: col.Id,
-          SystemId: sys.Id,
-          Celestial: col.Celestial,
-          Players: []SectorPlayer{},
-        }
+				s := Sector{
+					Id:        col.Id,
+					SystemId:  sys.Id,
+					Celestial: col.Celestial,
+					Players:   []SectorPlayer{},
+				}
 
 				for _, obj := range col.Objects {
 					if obj == nil {
@@ -55,7 +101,7 @@ func generateSectors(c *redis.Client) {
 						MapObject: MapObject{
 							Id:   obj.Id,
 							Type: obj.Type,
-              Max: obj.Max,
+							Max:  obj.Max,
 						},
 						Quantity: obj.Max,
 					}
@@ -63,9 +109,13 @@ func generateSectors(c *redis.Client) {
 					s.Objects = append(s.Objects, so)
 				}
 
-        j, _ := json.Marshal(s)
-        fmt.Println(string(j))
-				// add to redis here
+				j, _ := json.Marshal(s)
+
+				err := c.Set(s.Id, j, 0).Err()
+
+				if err != nil {
+					panic(err)
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import cn from 'classnames'
 
 import { AppState } from '../../reducers'
 import { SectorActions } from '../../reducers/sector'
+import useFetch from '../../hooks/useFetch'
 
 import arrow from './arrow.svg'
 import deploy from './deploy.svg'
@@ -24,9 +25,12 @@ const Movement: FC<MovementProps> = () => {
     isEqual
   )
   const dispatch = useDispatch()
+  const [moveState, runFetch] = useFetch('POST', '/move')
 
   const handleMove = (d: MoveDirection) => {
     const { x, y } = curSector
+    console.log(d, moveState)
+    runFetch({ direction: d })
 
     switch (d) {
       case 'up':

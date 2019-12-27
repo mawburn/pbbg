@@ -1,8 +1,8 @@
 import useKey2Num from '../../../hooks/useKey2Num'
 
-const useMax2BgSize = (max: number) => { 
+const useMax2BgSize = (max: number) => {
   let _min, _max
-  
+
   if (max === 0) {
     _min = 0
     _max = 0
@@ -16,7 +16,7 @@ const useMax2BgSize = (max: number) => {
     _min = 25
     _max = 39
   }
-  
+
   return useKey2Num(`${max}`, _min, _max)
 }
 

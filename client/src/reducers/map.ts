@@ -5,6 +5,7 @@ export enum MapActions {
 }
 
 const initialState: GameMap.Map = {
+  coords: {},
   systems: [
     {
       id: '',
@@ -18,7 +19,21 @@ export default function mapReducer(
   action: any
 ) {
   if (action.type === MapActions.LOAD) {
-    return clone(action.payload)
+    const coords: GameMap.Coords = {}
+
+    action.payload.systems.forEach((sys: GameMap.System, sysIdx: number) => {
+      sys.sectors.forEach((row, rowIdx) => {
+        row.forEach((sec, secIdx) => {
+          coords[sec.id] = {
+            system: sysIdx,
+            x: secIdx,
+            y: rowIdx,
+          }
+        })
+      })
+    })
+
+    return clone({ ...action.payload, coords })
   }
 
   return state

@@ -1,6 +1,10 @@
 import FetchError from './FetchError'
 
+import randomString from './randomString'
+
 export type FetchMethods = 'GET' | 'POST' | 'PUT' | 'DEL'
+
+const userToken = randomString(15)
 
 /**
  * Performs a JSON stringify on a body for the fetch request
@@ -20,19 +24,17 @@ const fetchWrapper = (
   method: FetchMethods,
   endpoint: string,
   body?: object | string,
-  opts: any = {},
-  token?: string
+  opts: any = {}
 ) => {
-  console.log(method, endpoint, body, opts, token)
   switch (method) {
     case 'GET':
-      return fetchGet(endpoint, body, token, '', opts)
+      return fetchGet(endpoint, body, '', opts)
     case 'POST':
-      return fetchPost(endpoint, body, token, '', opts)
+      return fetchPost(endpoint, body, '', opts)
     case 'PUT':
-      return fetchPut(endpoint, body, token, '', opts)
+      return fetchPut(endpoint, body, '', opts)
     case 'DEL':
-      return fetchDelete(endpoint, body, token, '', opts)
+      return fetchDelete(endpoint, body, '', opts)
   }
 }
 
@@ -42,7 +44,6 @@ const fetchWrapper = (
 const fetchGet = (
   endpoint: string,
   body?: object | string,
-  token?: string,
   contentType?: string,
   opts: any = {},
   ip?: string
@@ -57,13 +58,7 @@ const fetchGet = (
 
   const bodyAsUrlParams = paramArr.length > 0 ? `?${paramArr.join('&')}` : ''
 
-  return fetchWithErrors(
-    endpoint + bodyAsUrlParams,
-    opts,
-    token,
-    contentType,
-    ip
-  )
+  return fetchWithErrors(endpoint + bodyAsUrlParams, opts, contentType, ip)
 }
 
 /**
@@ -72,7 +67,6 @@ const fetchGet = (
 const fetchPost = (
   endpoint: string,
   body?: string | object,
-  token?: string,
   contentType?: string,
   opts: any = {},
   ip?: string
@@ -80,7 +74,7 @@ const fetchPost = (
   opts.method = 'POST'
   opts.body = bodyToString(body)
 
-  return fetchWithErrors(endpoint, opts, token, contentType, ip)
+  return fetchWithErrors(endpoint, opts, contentType, ip)
 }
 
 /**
@@ -89,7 +83,6 @@ const fetchPost = (
 const fetchDelete = (
   endpoint: string,
   body?: string | object,
-  token?: string,
   contentType?: string,
   opts: any = {},
   ip?: string
@@ -97,7 +90,7 @@ const fetchDelete = (
   opts.method = 'DELETE'
   opts.body = bodyToString(body)
 
-  return fetchWithErrors(endpoint, opts, token, contentType, ip)
+  return fetchWithErrors(endpoint, opts, contentType, ip)
 }
 
 /**
@@ -106,7 +99,6 @@ const fetchDelete = (
 const fetchPut = (
   endpoint: string,
   body?: string | object,
-  token?: string,
   contentType?: string,
   opts: any = {},
   ip?: string
@@ -114,7 +106,7 @@ const fetchPut = (
   opts.method = 'PUT'
   opts.body = bodyToString(body)
 
-  return fetchWithErrors(endpoint, opts, token, contentType, ip)
+  return fetchWithErrors(endpoint, opts, contentType, ip)
 }
 
 /**
@@ -123,7 +115,6 @@ const fetchPut = (
 const fetchWithErrors = (
   endpoint: string,
   opts?: any,
-  token?: string,
   contentType?: string,
   ip?: string
 ) => {
@@ -131,8 +122,8 @@ const fetchWithErrors = (
 
   headers['Content-Type'] = contentType || 'application/json'
 
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`
+  if (userToken) {
+    headers['Authorization'] = `Bearer ${userToken}`
   }
 
   if (ip) {
