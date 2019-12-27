@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 
 	"github.com/go-redis/redis/v7"
 )
@@ -39,12 +38,12 @@ func generateSectors(c *redis.Client) {
 	for _, sys := range m.Systems {
 		for _, row := range sys.Sectors {
 			for _, col := range row {
-				var s Sector
-
-				s.Id = col.Id
-				s.SystemId = sys.Id
-				s.Celestial = col.Celestial
-				s.Players = []SectorPlayer{}
+        s := Sector{
+          Id: col.Id,
+          SystemId: sys.Id,
+          Celestial: col.Celestial,
+          Players: []SectorPlayer{},
+        }
 
 				for _, obj := range col.Objects {
 					if obj == nil {
@@ -52,29 +51,20 @@ func generateSectors(c *redis.Client) {
 						continue
 					}
 
-					var q int
-
-					if obj.Size == "lg" {
-						q = rand.Intn(LG_MAX-MD_MAX) + MD_MAX + 1
-					} else if obj.Size == "md" {
-						q = rand.Intn(MD_MAX-SM_MAX) + SM_MAX + 1
-					} else {
-						q = rand.Intn(SM_MAX-10000) + 10000
-					}
-
 					so := &SectorObject{
 						MapObject: MapObject{
 							Id:   obj.Id,
 							Type: obj.Type,
-							Size: obj.Size,
+              Max: obj.Max,
 						},
-						Max:      uint32(q),
-						Quantity: uint32(q),
+						Quantity: obj.Max,
 					}
 
 					s.Objects = append(s.Objects, so)
 				}
 
+        j, _ := json.Marshal(s)
+        fmt.Println(string(j))
 				// add to redis here
 			}
 		}

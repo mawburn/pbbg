@@ -2,7 +2,7 @@ namespace GameMap {
   export interface SectorObject {
     id: string
     type: string
-    size: string
+    max: number
     quantity: number
   }
 

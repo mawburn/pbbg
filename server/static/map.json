@@ -1,91 +1,27 @@
 {
   "systems": [
     {
-      "id": "QisBdEB",
+      "id": "8aFKeyh",
       "sectors": [
         [
           {
-            "id": "NRfMdcS",
-            "celestial": {
-              "id": "cweYrzz1",
-              "name": "fe30",
-              "type": "planet"
-            },
+            "id": "wKM669L",
+            "celestial": null,
             "objects": [
+              null,
+              null,
+              null,
               {
-                "id": "5nvADHX1",
-                "size": "md",
+                "id": "Bo4hxbE",
+                "max": 4523298,
                 "type": "ore"
               },
-              {
-                "id": "5nvADHX2",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "5nvADHX3",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "5nvADHX4",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "5nvADHX5",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "5nvADHX6",
-                "size": "md",
-                "type": "ore"
-              }
+              null,
+              null
             ]
           },
           {
-            "id": "5oOisAP",
-            "celestial": {
-              "id": "cweYrzz2",
-              "name": "fe33",
-              "type": "station"
-            },
-            "objects": [
-              {
-                "id": "15nvADHX1",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "25nvADHX2",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "35nvADHX3",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "45nvADHX4",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "55nvADHX5",
-                "size": "md",
-                "type": "ore"
-              },
-              {
-                "id": "6n 5nvADHX6",
-                "size": "md",
-                "type": "ore"
-              }
-            ]
-          },
-          {
-            "id": "miIzKEE",
+            "id": "oyFWH7H",
             "celestial": null,
             "objects": [
               null,
@@ -93,19 +29,31 @@
               null,
               null,
               null,
-              {
-                "id": "mmzWytD",
-                "size": "md",
-                "type": "ore"
-              }
+              null
             ]
           },
           {
-            "id": "LUbaba7",
+            "id": "U2N7e4z",
             "celestial": null,
             "objects": [
               null,
               null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "MEVJo72",
+            "celestial": null,
+            "objects": [
+              null,
+              {
+                "id": "ygqfIzI",
+                "max": 1178991,
+                "type": "ore"
+              },
               null,
               null,
               null,
@@ -115,7 +63,7 @@
         ],
         [
           {
-            "id": "qW8Esly",
+            "id": "fvzumlv",
             "celestial": null,
             "objects": [
               null,
@@ -127,38 +75,46 @@
             ]
           },
           {
-            "id": "JJJsyiJ",
+            "id": "z9pGBKT",
             "celestial": null,
             "objects": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "id": "LdQWN6f",
-            "celestial": null,
-            "objects": [
-              null,
-              null,
-              null,
               null,
               {
-                "id": "F4L5Hp8",
-                "size": "md",
+                "id": "8bXa2FH",
+                "max": 8909977,
                 "type": "ore"
               },
+              null,
+              null,
+              null,
               null
             ]
           },
           {
-            "id": "0dQf8vT",
+            "id": "tO0AgTu",
+            "celestial": null,
+            "objects": [
+              {
+                "id": "K4caZS9",
+                "max": 1483536,
+                "type": "ore"
+              },
+              {
+                "id": "awND3nQ",
+                "max": 9625024,
+                "type": "ore"
+              },
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "id": "aRFFY07",
             "celestial": {
-              "id": "cweYrzz",
-              "name": "fe3",
+              "id": "YTn9Jeg",
+              "name": "uLN",
               "type": "planet"
             },
             "objects": [
@@ -173,23 +129,47 @@
         ],
         [
           {
-            "id": "xlUhSMZ",
+            "id": "eEkABeV",
             "celestial": {
-              "id": "NjrMj19",
-              "name": "uYL",
+              "id": "Gp9KFS6",
+              "name": "c1a",
               "type": "station"
             },
             "objects": [
               null,
               null,
+              {
+                "id": "bjspgSQ",
+                "max": 46816,
+                "type": "ore"
+              },
               null,
+              null,
+              {
+                "id": "DnYS2cz",
+                "max": 8838745,
+                "type": "ore"
+              }
+            ]
+          },
+          {
+            "id": "Cem4OTr",
+            "celestial": null,
+            "objects": [
+              null,
+              null,
+              {
+                "id": "u5X7AWm",
+                "max": 6109596,
+                "type": "ore"
+              },
               null,
               null,
               null
             ]
           },
           {
-            "id": "fB6zK3K",
+            "id": "wTlVvkr",
             "celestial": null,
             "objects": [
               null,
@@ -201,20 +181,12 @@
             ]
           },
           {
-            "id": "DV1xyWY",
-            "celestial": null,
-            "objects": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "id": "rTiOHU3",
-            "celestial": null,
+            "id": "5PdUhsE",
+            "celestial": {
+              "id": "Q1tq9VE",
+              "name": "QTl",
+              "type": "station"
+            },
             "objects": [
               null,
               null,
@@ -227,43 +199,39 @@
         ],
         [
           {
-            "id": "UfPK5XS",
+            "id": "6KeINT1",
             "celestial": null,
             "objects": [
               null,
               null,
+              null,
               {
-                "id": "DPJxyyd",
-                "size": "lg",
+                "id": "neD4MsL",
+                "max": 7001482,
                 "type": "ore"
               },
-              null,
               null,
               null
             ]
           },
           {
-            "id": "iaHC6Wo",
+            "id": "31WkTFv",
             "celestial": null,
             "objects": [
               null,
               null,
-              {
-                "id": "crjjZIC",
-                "size": "md",
-                "type": "ore"
-              },
+              null,
               null,
               null,
               {
-                "id": "P5CjlFf",
-                "size": "sm",
+                "id": "Fl01QC9",
+                "max": 6702203,
                 "type": "ore"
               }
             ]
           },
           {
-            "id": "s8RvJfm",
+            "id": "1oaV9Lb",
             "celestial": null,
             "objects": [
               null,
@@ -275,7 +243,7 @@
             ]
           },
           {
-            "id": "SPtesXc",
+            "id": "PPE0pzI",
             "celestial": null,
             "objects": [
               null,

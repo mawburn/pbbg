@@ -1,9 +1,8 @@
-import React, { FC, MouseEvent, useRef } from 'react'
+import React, { FC, MouseEvent } from 'react'
 import cn from 'classnames'
 
 // import randomInt from '../../../utils/randomInt'
-import keyToNumber from '../../../utils/keyToNumber'
-import useKey2Num from '../../../hooks/useKey2Num'
+import useMax2BgSize from './useMax2BgSize'
 
 import s from './styles.module.scss'
 
@@ -21,7 +20,7 @@ export interface SectorObject {
 
 const SectorObject: FC<SectorObject> = ({ data, className }) => {
   // const clssIndex = useRef<string>(getClass())
-  const size = useKey2Num(data.id, 25, 85)
+  const size = useMax2BgSize(data ? data.max : 0)
 
   const _handleClick = (e: MouseEvent) => {
     e.preventDefault()

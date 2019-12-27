@@ -3,8 +3,8 @@ const fs = require('fs')
 const ROW_COUNT = 4
 const COL_COUNT = 4
 
-function randomNum(max) {
-  return Math.floor(Math.random() * (max - 1) + 1)
+function randomNum(min, max) {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 function randomString(length) {
@@ -23,15 +23,13 @@ function sectorObjCreator() {
   const _objects = []
 
   for (let i = 0; i < 6; i++) {
-    const _shouldPopulate = randomNum(15)
+    const _shouldPopulate = randomNum(0, 10)
     let _object = null
 
     if (_shouldPopulate === 1) {
-      const sizeRan = randomNum(4)
-      
       _object = {
         id: randomString(7),
-        size: sizeRan === 2 ? 'lg' : sizeRan === 1 ? 'md' : 'sm',
+        max: randomNum(10000, 10000000),
         type: 'ore',
       }
     }
@@ -51,7 +49,7 @@ for (let row = 0; row < ROW_COUNT; row++) {
   const sectorRow = []
 
   for (let col = 0; col < COL_COUNT; col++) {
-    const _celRan = randomNum(10)
+    const _celRan = randomNum(0, 10)
     const celestial = _celRan === 1 ? {
       id: randomString(7),
       name: randomString(3),
