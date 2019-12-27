@@ -4,38 +4,51 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
-  "net/http"
 )
 
-type Object struct {
+type MapObject struct {
 	Id   string `json:"id"`
 	Type string `json:"type"`
 	Size string `json:"size"`
 }
 
-type Celestial struct {
+type MapCelestial struct {
 	Id   string `json:"id"`
 	Name string `"json:"name"`
 	Type string `json:"type"`
 }
 
 type MapSector struct {
-	Id        string     `json:"id"`
-	Celestial *Celestial `json:"celestial"`
-	Objects   []*Object  `json:"objects"`
+	Id        string        `json:"id"`
+	Celestial *MapCelestial `json:"celestial"`
+	Objects   []*MapObject  `json:"objects"`
 }
 
-type System struct {
+type MapSystem struct {
 	Id      string        `json:"id"`
 	Sectors [][]MapSector `json:"sectors"`
 }
 
 type GameMap struct {
-	Systems []System `json:"systems"`
+	Systems []MapSystem `json:"systems"`
 }
 
+var pGameMap GameMap
+
 func getGameMap(w http.ResponseWriter, r *http.Request) {
+	jsonMap, _ := json.Marshal(getGameMapStruct())
+
+	w.Write(jsonMap)
+}
+
+func getGameMapStruct() GameMap {
+	// if we have it persisted, no reason to check disk
+	if len(pGameMap.Systems) > 0 {
+		return pGameMap
+	}
+
 	mapFile, err := os.Open("./static/map.json")
 
 	if err != nil {
@@ -53,8 +66,8 @@ func getGameMap(w http.ResponseWriter, r *http.Request) {
 	if umErr != nil {
 		fmt.Println(umErr)
 	}
-  
-  jsonMap, err := json.Marshal(gameMap)
- 
-  w.Write(jsonMap)
+
+	pGameMap = gameMap
+
+	return gameMap
 }
