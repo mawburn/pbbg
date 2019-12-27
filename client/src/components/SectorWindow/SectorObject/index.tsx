@@ -29,7 +29,7 @@ const SectorObject: FC<SectorObject> = ({ data, className }) => {
 
   return !data ? null : (
     <button
-      style={{backgroundSize: `${size}%`}}
+      style={{ backgroundSize: `${size}%` }}
       className={cn(s.btn, className, s[data.type])}
       onClick={_handleClick}
     />

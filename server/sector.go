@@ -1,11 +1,10 @@
 package main
 
 import (
- 
-  "fmt"
- "math/rand"
-  "encoding/json"
-  
+	"encoding/json"
+	"fmt"
+	"math/rand"
+
 	"github.com/go-redis/redis/v7"
 )
 
@@ -28,7 +27,7 @@ type Sector struct {
 	SystemId  string          `json:"-"`
 	Celestial *MapCelestial   `json:"celestial"`
 	Objects   []*SectorObject `json:"objects"`
-	Players   []SectorPlayer `json:"players"`
+	Players   []SectorPlayer  `json:"players"`
 }
 
 func getSector(id string) {
@@ -45,13 +44,13 @@ func generateSectors(c *redis.Client) {
 				s.Id = col.Id
 				s.SystemId = sys.Id
 				s.Celestial = col.Celestial
-        s.Players = []SectorPlayer{}
-        
+				s.Players = []SectorPlayer{}
+
 				for _, obj := range col.Objects {
-          if obj == nil {
-            s.Objects = append(s.Objects, nil)
-            continue
-          }
+					if obj == nil {
+						s.Objects = append(s.Objects, nil)
+						continue
+					}
 
 					var q int
 
@@ -62,21 +61,21 @@ func generateSectors(c *redis.Client) {
 					} else {
 						q = rand.Intn(SM_MAX-10000) + 10000
 					}
-          
-          so := &SectorObject{
-            MapObject: MapObject{
-              Id: obj.Id,
-              Type: obj.Type,
-              Size: obj.Size,
-            },
-            Max: uint32(q),
-            Quantity: uint32(q),
-          }
-          
-          s.Objects = append(s.Objects, so)
+
+					so := &SectorObject{
+						MapObject: MapObject{
+							Id:   obj.Id,
+							Type: obj.Type,
+							Size: obj.Size,
+						},
+						Max:      uint32(q),
+						Quantity: uint32(q),
+					}
+
+					s.Objects = append(s.Objects, so)
 				}
 
-        // add to redis here
+				// add to redis here
 			}
 		}
 	}
