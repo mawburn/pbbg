@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+  "net/http"
 )
 
 type Object struct {
-	Id       string  `json:"id"`
-	Type     string  `json:"type"`
-	Size     string  `json:"size"`
-	Quantity *uint32 `json:"quantity"`
+	Id   string `json:"id"`
+	Type string `json:"type"`
+	Size string `json:"size"`
 }
 
 type Celestial struct {
@@ -20,22 +20,22 @@ type Celestial struct {
 	Type string `json:"type"`
 }
 
-type Sector struct {
+type MapSector struct {
 	Id        string     `json:"id"`
 	Celestial *Celestial `json:"celestial"`
 	Objects   []*Object  `json:"objects"`
 }
 
 type System struct {
-	Id      string     `json:"id"`
-	Sectors [][]Sector `json:"sectors"`
+	Id      string        `json:"id"`
+	Sectors [][]MapSector `json:"sectors"`
 }
 
 type GameMap struct {
 	Systems []System `json:"systems"`
 }
 
-func gameMap() GameMap {
+func getGameMap(w http.ResponseWriter, r *http.Request) {
 	mapFile, err := os.Open("./static/map.json")
 
 	if err != nil {
@@ -53,6 +53,8 @@ func gameMap() GameMap {
 	if umErr != nil {
 		fmt.Println(umErr)
 	}
-
-	return gameMap
+  
+  jsonMap, err := json.Marshal(gameMap)
+ 
+  w.Write(jsonMap)
 }
