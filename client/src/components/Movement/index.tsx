@@ -29,7 +29,6 @@ const Movement: FC<MovementProps> = () => {
 
   const handleMove = (d: MoveDirection) => {
     const { x, y } = curSector
-    console.log(d, moveState)
     runFetch({ direction: d })
 
     switch (d) {
