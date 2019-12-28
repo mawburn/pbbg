@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+  initActions()
 	r, c := initApi()
 	defer c.Close()
 

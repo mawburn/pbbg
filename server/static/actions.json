@@ -1,0 +1,10 @@
+{
+  "move": {
+    "class": "move",
+    "weight": 10
+  },
+  "gather": {
+    "class": "gather",
+    "weight": 20
+  }
+}
