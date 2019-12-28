@@ -8,14 +8,14 @@ import (
 )
 
 type Action struct {
-  Class string `json:"class"`
-  Weight uint8 `json:"weight"`
+	Class  string `json:"class"`
+	Weight uint8  `json:"weight"`
 }
 
 var actions map[string]*Action
 
 func getAction(id string) *Action {
-  return actions[id]
+	return actions[id]
 }
 
 func initActions() {

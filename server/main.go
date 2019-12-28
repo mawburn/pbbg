@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-  initActions()
+	initActions()
 	r, c := initApi()
 	defer c.Close()
 
@@ -55,10 +55,10 @@ func initApi() (*chi.Mux, *redis.Client) {
 	)
 
 	r.Get("/map", getGameMap)
-  
-  r.Post("/move", func(w http.ResponseWriter, r *http.Request) {
-    playerMove(w, r, client)
-  })
+
+	r.Post("/move", func(w http.ResponseWriter, r *http.Request) {
+		playerMove(w, r, client)
+	})
 
 	return r, client
 }
