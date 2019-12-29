@@ -1,0 +1,2 @@
+REACT_APP_API=https://api.universeone.win
+REACT_APP_LOGIN=https://pbbg-dev.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=4vv4h8urv7j5umvamc6rj1o37e&redirect_uri=https://pbbg.universeone.win/login

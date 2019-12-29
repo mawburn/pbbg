@@ -3,15 +3,34 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/go-redis/redis/v7"
+	"github.com/joho/godotenv"
 )
 
+type EnvVars struct {
+	RedisPassword string
+	ClientId string
+	ClientSecret string
+}
+
+var envVars EnvVars
+
 func main() {
+	err := godotenv.Load()
+  if err != nil {
+    log.Fatal("Error loading .env file")
+	}
+	
+	envVars.RedisPassword = os.GetEnv("REDIS_PASS")
+	envVars.ClientId = os.GetEnv("OAUTH_CLIENT_ID")
+	envVars.ClientSecret = os.GetEnv("OAUTH_CLIENT_SECRET")
+
 	initActions()
 	r, c := initApi()
 	defer c.Close()
@@ -28,7 +47,7 @@ func ticker() {
 func initApi() (*chi.Mux, *redis.Client) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
-		Password: "", // no password set
+		Password: "5!Ne[^5+k2HneNH", // no password set
 		DB:       0,  // use default DB
 	})
 

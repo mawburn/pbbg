@@ -31,6 +31,8 @@ const Movement: FC<MovementProps> = () => {
     const { x, y } = curSector
     runFetch({ direction: d })
 
+console.log(moveState)
+
     switch (d) {
       case 'up':
         if (y - 1 >= 0) {
