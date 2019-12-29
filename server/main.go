@@ -15,18 +15,18 @@ import (
 
 type EnvVars struct {
 	RedisPassword string
-	ClientId string
-	ClientSecret string
+	ClientId      string
+	ClientSecret  string
 }
 
 var envVars EnvVars
 
 func main() {
 	err := godotenv.Load()
-  if err != nil {
-    log.Fatal("Error loading .env file")
+	if err != nil {
+		log.Fatal("Error loading .env file")
 	}
-	
+
 	envVars.RedisPassword = os.Getenv("REDIS_PASS")
 	envVars.ClientId = os.Getenv("OAUTH_CLIENT_ID")
 	envVars.ClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
@@ -48,7 +48,7 @@ func initApi() (*chi.Mux, *redis.Client) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "5!Ne[^5+k2HneNH", // no password set
-		DB:       0,  // use default DB
+		DB:       0,                 // use default DB
 	})
 
 	r := chi.NewRouter()
@@ -71,12 +71,12 @@ func initApi() (*chi.Mux, *redis.Client) {
 		middleware.DefaultCompress,
 		middleware.StripSlashes,
 		middleware.Recoverer,
-    middleware.RealIP,
-    middleware.WithValue("redis", client),
+		middleware.RealIP,
+		middleware.WithValue("redis", client),
 	)
 
 	r.Get("/map", getGameMap)
-  r.Post("/login", authUser)
+	r.Post("/login", authUser)
 
 	r.Post("/move", playerMove)
 
