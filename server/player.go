@@ -18,7 +18,7 @@ type Player struct {
 	Id string
 }
 
-func playerMove(w http.ResponseWriter, r *http.Request, c *redis.Client) {
+func playerMove(w http.ResponseWriter, r *http.Request) {
 	reqToken := r.Header.Get("Authorization")
 	splitToken := strings.Split(reqToken, "Bearer ")
 	reqToken = splitToken[1]
@@ -31,6 +31,13 @@ func playerMove(w http.ResponseWriter, r *http.Request, c *redis.Client) {
 
 	if err != nil {
 		panic(err)
+	}
+  
+  c := r.Context().Value("redis").(*redis.Client)
+  
+  rerr := c.Set("key", m.Direction, 0).Err()
+	if rerr != nil {
+		panic(rerr)
 	}
 
 	w.Write(json.RawMessage(`{"precomputed": true}`))
@@ -50,25 +57,4 @@ func getToken(r *http.Request, c *redis.Client) string {
 	fmt.Sprintf("%x", b)
 
 	return string(b)
-}
-
-func cognitoCallback(ctx context.Context, d *aegis.HandlerDependencies, req *aegis.APIGatewayProxyRequest, res *aegis.APIGatewayProxyResponse, params url.Values) error {
-	// 	// Exchange code for token
-	// 	tokens, err := d.Services.Cognito.GetTokens(req.QueryStringParameters["code"], []string{})
-	// 	if err != nil {
-	// 		log.Println("Couldn't get access token", err)
-	// 		res.JSONError(500, err)
-	// 	} else {
-	// 		// verify the token
-	// 		_, err := d.Services.Cognito.ParseAndVerifyJWT(tokens.IDToken)
-	// 		if err == nil {
-	// 			host := req.GetHeader("Host")
-	// 			stage := req.RequestContext.Stage
-	// 			res.SetHeader("Set-Cookie", "access_token="+tokens.AccessToken+"; Domain="+host+"; Secure; HttpOnly")
-	// 			res.Redirect(301, "https://"+host+"/"+stage+"/protected")
-	// 		} else {
-	// 			res.JSONError(401, errors.New("unauthorized, invalid token"))
-	// 		}
-	// 	}
-	// 	return nil
 }

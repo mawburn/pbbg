@@ -52,13 +52,14 @@ func initApi() (*chi.Mux, *redis.Client) {
 		middleware.DefaultCompress,
 		middleware.StripSlashes,
 		middleware.Recoverer,
+    middleware.RealIP,
+    middleware.WithValue("redis", client),
 	)
 
 	r.Get("/map", getGameMap)
+  r.Post("/login", authUser)
 
-	r.Post("/move", func(w http.ResponseWriter, r *http.Request) {
-		playerMove(w, r, client)
-	})
+	r.Post("/move", playerMove)
 
 	return r, client
 }

@@ -4,13 +4,13 @@ import { Provider } from 'react-redux'
 
 import './index.scss'
 import configureStore from './store'
-import App from './components/App'
+import Router from './Router'
 
 const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router />
   </Provider>,
   document.getElementById('root')
 )
