@@ -27,9 +27,9 @@ func main() {
     log.Fatal("Error loading .env file")
 	}
 	
-	envVars.RedisPassword = os.GetEnv("REDIS_PASS")
-	envVars.ClientId = os.GetEnv("OAUTH_CLIENT_ID")
-	envVars.ClientSecret = os.GetEnv("OAUTH_CLIENT_SECRET")
+	envVars.RedisPassword = os.Getenv("REDIS_PASS")
+	envVars.ClientId = os.Getenv("OAUTH_CLIENT_ID")
+	envVars.ClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
 
 	initActions()
 	r, c := initApi()

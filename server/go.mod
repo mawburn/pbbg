@@ -8,5 +8,5 @@ require (
 	github.com/go-chi/render v1.0.1
 	github.com/go-redis/redis/v7 v7.0.0-beta.4
 	github.com/graphql-go/graphql v0.7.8
-	github.com/joho/godotenv v1.3.0 // indirect
+	github.com/joho/godotenv v1.3.0
 )
