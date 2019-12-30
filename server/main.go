@@ -15,6 +15,8 @@ import (
 
 type EnvVars struct {
 	RedisPassword string
+	OauthUrl      string
+	OauthRedirect string
 	ClientId      string
 	ClientSecret  string
 }
@@ -28,6 +30,8 @@ func main() {
 	}
 
 	envVars.RedisPassword = os.Getenv("REDIS_PASS")
+	envVars.OauthUrl = os.Getenv("OAUTH_URL")
+	envVars.OauthRedirect = os.Getenv("OAUTH_REDIRECT")
 	envVars.ClientId = os.Getenv("OAUTH_CLIENT_ID")
 	envVars.ClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
 
@@ -47,8 +51,8 @@ func ticker() {
 func initApi() (*chi.Mux, *redis.Client) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
-		Password: "5!Ne[^5+k2HneNH", // no password set
-		DB:       0,                 // use default DB
+		Password: envVars.RedisPassword,
+		DB:       0,
 	})
 
 	r := chi.NewRouter()
@@ -77,7 +81,6 @@ func initApi() (*chi.Mux, *redis.Client) {
 
 	r.Get("/map", getGameMap)
 	r.Post("/login", authUser)
-
 	r.Post("/move", playerMove)
 
 	return r, client
