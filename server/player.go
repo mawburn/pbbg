@@ -33,9 +33,7 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	c := r.Context().Value("redis").(*redis.Client)
-
-	rerr := c.Set("key", m.Direction, 0).Err()
+	rerr := dbConns.Redis.Set("key", m.Direction, 0).Err()
 	if rerr != nil {
 		panic(rerr)
 	}

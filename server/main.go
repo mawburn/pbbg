@@ -19,9 +19,15 @@ type EnvVars struct {
 	OauthRedirect string
 	ClientId      string
 	ClientSecret  string
+	CognitoUrl    string
+}
+
+type DBConns struct {
+	Redis *redis.Client
 }
 
 var envVars EnvVars
+var dbConns DBConns
 
 func main() {
 	err := godotenv.Load()
@@ -34,26 +40,30 @@ func main() {
 	envVars.OauthRedirect = os.Getenv("OAUTH_REDIRECT")
 	envVars.ClientId = os.Getenv("OAUTH_CLIENT_ID")
 	envVars.ClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
+	envVars.CognitoUrl = os.Getenv("COGNITO_KEY_URL")
 
 	initActions()
-	r, c := initApi()
-	defer c.Close()
+	r := initApi()
 
-	generateSectors(c)
+	generateSectors(dbConns.Redis)
 
 	log.Fatal(http.ListenAndServe(":4242", r))
+
+	defer dbConns.Redis.Close()
 }
 
 func ticker() {
 
 }
 
-func initApi() (*chi.Mux, *redis.Client) {
+func initApi() *chi.Mux {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: envVars.RedisPassword,
 		DB:       0,
 	})
+
+	dbConns.Redis = client
 
 	r := chi.NewRouter()
 
@@ -76,14 +86,13 @@ func initApi() (*chi.Mux, *redis.Client) {
 		middleware.StripSlashes,
 		middleware.Recoverer,
 		middleware.RealIP,
-		middleware.WithValue("redis", client),
 	)
 
 	r.Get("/map", getGameMap)
 	r.Post("/login", authUser)
 	r.Post("/move", playerMove)
 
-	return r, client
+	return r
 }
 
 func contentMiddleware(next http.Handler) http.Handler {
