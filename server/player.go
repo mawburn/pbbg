@@ -23,8 +23,6 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 	splitToken := strings.Split(reqToken, "Bearer ")
 	reqToken = splitToken[1]
 
-	fmt.Println(reqToken)
-
 	decoder := json.NewDecoder(r.Body)
 	var m PlayerMove
 	err := decoder.Decode(&m)

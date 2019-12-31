@@ -12,4 +12,5 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/lestrrat-go/jwx v0.9.0
 	github.com/pkg/errors v0.8.1 // indirect
+	github.com/segmentio/ksuid v1.0.2
 )

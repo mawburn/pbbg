@@ -1,16 +1,16 @@
 package main
 
 import (
-	//   "crypto/rand"
 	"encoding/json"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/lestrrat-go/jwx/jwk"
-	"io/ioutil"
 	"net/http"
 	"net/url"
-	// 	"strings"
-	// 	"github.com/go-redis/redis/v7"
+	"time"
+	"io/ioutil"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/segmentio/ksuid"
 )
 
 type AuthPayload struct {
@@ -26,12 +26,11 @@ type OAuth struct {
 }
 
 type UserInfo struct {
-	*OAuth
-	Email      string   `json:"email"`
-	PlayerName string   `json:"playerName"`
-	UserNames  []string `json:"userNames"`
-	LastLogin  int64    `json:"lastLogin`
-	SessionId  string   `json:"sessionId"`
+	Email      string  `json:"email"`
+	PlayerName *string `json:"playerName"`
+	UserName   string  `json:"userName"`
+	LastLogin  int32   `json:"lastLogin`
+	UserId     string  `json:"userId"`
 }
 
 func authUser(w http.ResponseWriter, r *http.Request) {
@@ -40,10 +39,9 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&ap)
 
 	if err != nil {
+		fmt.Println("decoder")
 		panic(err)
 	}
-
-	fmt.Println(ap.Code)
 
 	response, postErr := http.PostForm(envVars.OauthUrl+"/token", url.Values{
 		"code":          {ap.Code},
@@ -52,6 +50,11 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		"client_secret": {envVars.ClientSecret},
 		"redirect_uri":  {envVars.OauthRedirect},
 	})
+
+	if response.StatusCode == 400 {
+		fmt.Println("Code Used")
+		return
+	}
 
 	if postErr != nil {
 		fmt.Println("post error", envVars.OauthUrl)
@@ -68,9 +71,13 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(body, &out)
 
-	keySet, err := jwk.Fetch(envVars.CognitoUrl)
+	keySet, jwkErr := jwk.Fetch(envVars.CognitoUrl)
 
-	token, err := jwt.Parse(out.IdToken, func(token *jwt.Token) (interface{}, error) {
+	if jwkErr != nil {
+		fmt.Println("jwkErr")
+	}
+
+	token, jwtErr := jwt.Parse(out.IdToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
@@ -86,9 +93,47 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return keys[0].Materialize()
 	})
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println(claims["email"], claims["cognito:username"], "\n")
-	} else {
-		fmt.Println(err)
+	if jwtErr != nil {
+		fmt.Println("JWT Error", jwtErr, "\n", out)
 	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+
+	if !ok || !token.Valid {
+		fmt.Println("not ok")
+		fmt.Println(ok)
+	}
+
+	var user UserInfo
+
+	user = UserInfo{
+		Email:     claims["email"].(string),
+		UserName:  claims["cognito:username"].(string),
+		LastLogin: int32(time.Now().Unix()),
+		UserId:    ksuid.New().String(),
+	}
+
+	sessionId := ksuid.New().String()
+
+	jsonUser, _ := json.Marshal(user)
+
+	rErr := dbConns.Redis.Set(sessionId, jsonUser, 720*time.Hour).Err()
+
+	if rErr != nil {
+		fmt.Println("redis")
+		fmt.Println(rErr)
+	}
+
+	expire := time.Now().AddDate(0, 0, 30)
+	cookie := http.Cookie{
+		Name:     "session_id",
+		Value:    sessionId,
+		Expires:  expire,
+		HttpOnly: true,
+		Secure: true,
+	}
+
+	http.SetCookie(w, &cookie)
+
+	w.Write(json.RawMessage(`{"ok": true}`))
 }
