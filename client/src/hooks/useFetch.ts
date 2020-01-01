@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useHistory } from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 
 import config from '../config'
 import { FetchMethods, fetchWrapper } from '../utils/fetchWrapper'

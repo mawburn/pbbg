@@ -6,7 +6,7 @@ import useFetch from '../../hooks/useFetch'
 const Login = () => {
   const location = useLocation()
   const history = useHistory()
-  const [fetchState, runFetch] = useFetch<{ok: boolean}>('POST', '/login')
+  const [fetchState, runFetch] = useFetch<{ ok: boolean }>('POST', '/login')
 
   useEffect(() => {
     const { isFetching, response, errors } = fetchState
@@ -18,8 +18,6 @@ const Login = () => {
     } else if (response && response.ok) {
       history.push('/play')
     }
-
-    console.log(response)
   }, [fetchState, location, runFetch, history])
 
   return null

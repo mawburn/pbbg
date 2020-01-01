@@ -1,11 +1,11 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"os"
-	"context"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -113,34 +113,34 @@ func authMiddleware(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		} else {
 
-		cookie, cookieErr := r.Cookie("session_id") 
+			cookie, cookieErr := r.Cookie("session_id")
 
-		if cookieErr != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
-			return
+			if cookieErr != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
+				return
+			}
+
+			redisVal, redisErr := dbConns.Redis.Get(cookie.Value).Result()
+
+			if redisErr != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
+				return
+			}
+
+			var jVal UserInfo
+			jErr := json.Unmarshal([]byte(redisVal), &jVal)
+
+			if jErr != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
+				return
+			}
+
+			ctx := context.WithValue(r.Context(), "userid", jVal.UserId)
+
+			next.ServeHTTP(w, r.WithContext(ctx))
 		}
-
-		redisVal, redisErr := dbConns.Redis.Get(cookie.Value).Result()
-
-		if redisErr != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
-			return
-		}
-
-		var jVal UserInfo
-		jErr := json.Unmarshal([]byte(redisVal), &jVal)
-
-		if jErr != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write(json.RawMessage(`{"errors": ["401 - Unauthorized"]}`))
-			return
-		}
-
-		ctx := context.WithValue(r.Context(), "userid", jVal.UserId)
-
-		next.ServeHTTP(w, r.WithContext(ctx))
-	}
-  })
+	})
 }

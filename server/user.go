@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
-	"io/ioutil"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/lestrrat-go/jwx/jwk"
@@ -130,7 +130,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		Value:    sessionId,
 		Expires:  expire,
 		HttpOnly: true,
-		Secure: true,
+		Secure:   true,
 	}
 
 	http.SetCookie(w, &cookie)

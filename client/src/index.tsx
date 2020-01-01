@@ -7,8 +7,6 @@ import './index.scss'
 import configureStore from './store'
 import Router from './Router'
 
-
-
 export const history = createBrowserHistory()
 
 const store = configureStore()
