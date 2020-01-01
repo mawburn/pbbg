@@ -132,6 +132,7 @@ const fetchWithErrors = (
 
   const fetchOpts: any = {
     ...opts,
+    credentials: 'include',
     headers: new Headers({ ...headers }),
   }
 
@@ -150,7 +151,7 @@ const fetchWithErrors = (
 
       if (!res.ok) {
         if (statusCode === 401) {
-          throw new FetchError('Logged Out', statusCode)
+          throw new FetchError('Unauthorized', statusCode)
         } else if (cType !== 'unk') {
           if (cType === 'json') {
             return res.json().then(data => {

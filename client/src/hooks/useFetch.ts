@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useHistory } from "react-router-dom"
 
 import config from '../config'
 import { FetchMethods, fetchWrapper } from '../utils/fetchWrapper'
@@ -25,6 +26,7 @@ const useFetch = <T>(
   method: FetchMethods,
   url: string
 ): [FetchState<T>, (requestPayload?: Object) => void] => {
+  const history = useHistory()
   const [state, setState] = useState<FetchState<T>>({ ...initialState })
 
   const controller = useRef(new AbortController())
@@ -47,6 +49,10 @@ const useFetch = <T>(
 
         setState({ isFetching: false, errors: [], response })
       } catch (err) {
+        if (err.name === 'Fetch Error') {
+          history.replace('/auth')
+        }
+
         console.error(err)
         const errors = Array.isArray(err) ? [...err] : [err]
         setState({ isFetching: false, errors, response: null })
