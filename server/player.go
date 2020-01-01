@@ -15,7 +15,8 @@ type PlayerMove struct {
 }
 
 type Player struct {
-	Id string
+	Id            string
+	CurrentSector string
 }
 
 func playerMove(w http.ResponseWriter, r *http.Request) {

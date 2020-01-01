@@ -34,6 +34,8 @@ export default function mapReducer(
     })
 
     return clone({ ...action.payload, coords })
+
+    return state
   }
 
   return state

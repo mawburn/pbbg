@@ -137,7 +137,7 @@ const fetchWithErrors = (
   }
 
   return fetch(endpoint, fetchOpts)
-    .then(res => {
+    .then((res: any) => {
       const contentType = res.headers.get('Content-Type')
 
       const cType =
@@ -154,13 +154,13 @@ const fetchWithErrors = (
           throw new FetchError('Unauthorized', statusCode)
         } else if (cType !== 'unk') {
           if (cType === 'json') {
-            return res.json().then(data => {
+            return res.json().then((data: any) => {
               const errText = data.error || JSON.stringify(data)
 
               throw new FetchError(errText, statusCode)
             })
           } else if (cType === 'text') {
-            return res.text().then(data => {
+            return res.text().then((data: any) => {
               throw new FetchError(data, statusCode)
             })
           }
@@ -171,14 +171,16 @@ const fetchWithErrors = (
       }
 
       if (cType === 'json') {
-        return res.json()
+        return res.json().then((data: any) => {
+          return { statusCode, res: data }
+        })
       } else if (cType === 'text') {
         return res.text()
       } else {
         return res
       }
     })
-    .catch(err => {
+    .catch((err: any) => {
       if (err.message.toLowerCase() === 'failed to fetch') {
         throw new FetchError('Failed')
       } else if (err.message.includes('Logged Out')) {

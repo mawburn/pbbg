@@ -7,6 +7,7 @@ import { FetchMethods, fetchWrapper } from '../utils/fetchWrapper'
 export interface FetchState<T> {
   isFetching: boolean
   errors: string[]
+  statusCode: number | null
   response: T | null
 }
 
@@ -14,6 +15,7 @@ const initialState = {
   isFetching: false,
   errors: [],
   response: null,
+  statusCode: null,
 }
 
 /**
@@ -47,15 +49,35 @@ const useFetch = <T>(
           opts
         )
 
-        setState({ isFetching: false, errors: [], response })
+        setState({
+          isFetching: false,
+          errors: [],
+          response: response.res,
+          statusCode: response.statusCode,
+        })
       } catch (err) {
         if (err.name === 'Fetch Error') {
-          history.replace('/auth')
+          if (err.statusCode === 401) {
+            history.replace('/auth')
+          } else {
+            const errors = Array.isArray(err.msg) ? [...err.msg] : [err.msg]
+            setState({
+              isFetching: false,
+              errors,
+              statusCode: err.statusCode,
+              response: null,
+            })
+          }
         }
 
         console.error(err)
         const errors = Array.isArray(err) ? [...err] : [err]
-        setState({ isFetching: false, errors, response: null })
+        setState({
+          isFetching: false,
+          errors,
+          response: null,
+          statusCode: null,
+        })
       }
     }
   }
