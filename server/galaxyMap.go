@@ -21,32 +21,30 @@ type MapCelestial struct {
 }
 
 type MapSector struct {
-	Id        string        `json:"id"`
+	SystemId  string        `json:"systemId"`
+	Xpos      uint8         `json:"x"`
+	Ypos      uint8         `json:"y"`
 	Celestial *MapCelestial `json:"celestial"`
 	Objects   []*MapObject  `json:"objects"`
 }
 
-type MapSystem struct {
-	Id      string        `json:"id"`
-	Sectors [][]MapSector `json:"sectors"`
+type GalaxyMap struct {
+	Sectors map[string]MapSector  `json:"sectors"`
+	Systems map[string][][]string `json:"systems"`
 }
 
-type GameMap struct {
-	Systems []MapSystem `json:"systems"`
-}
+var galaxyMap GalaxyMap
 
-var pGameMap GameMap
-
-func getGameMap(w http.ResponseWriter, r *http.Request) {
-	jsonMap, _ := json.Marshal(getGameMapStruct())
+func getGalaxyMap(w http.ResponseWriter, r *http.Request) {
+	jsonMap, _ := json.Marshal(getGalaxyMapStruct())
 
 	w.Write(jsonMap)
 }
 
-func getGameMapStruct() GameMap {
+func getGalaxyMapStruct() GalaxyMap {
 	// if we have it persisted, no reason to check disk
-	if len(pGameMap.Systems) > 0 {
-		return pGameMap
+	if len(galaxyMap.Systems) > 0 {
+		return galaxyMap
 	}
 
 	mapFile, err := os.Open("./static/map.json")
@@ -59,7 +57,7 @@ func getGameMapStruct() GameMap {
 
 	byteValue, _ := ioutil.ReadAll(mapFile)
 
-	var gameMap GameMap
+	var gameMap GalaxyMap
 
 	umErr := json.Unmarshal(byteValue, &gameMap)
 
@@ -67,7 +65,7 @@ func getGameMapStruct() GameMap {
 		fmt.Println(umErr)
 	}
 
-	pGameMap = gameMap
+	galaxyMap = gameMap
 
 	return gameMap
 }

@@ -36,6 +36,7 @@ type UserInfo struct {
 
 var keySet *jwk.Set
 var STARTING_SECTOR string = "z9pGBKT"
+var STARTING_SYSTEM string = "8aFKeyh"
 
 func authUser(w http.ResponseWriter, r *http.Request) {
 	oAuth, err := getAuthToken(r.Body)
@@ -116,7 +117,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 	playerExists := dbConns.Redis.Exists("player-" + userId).Val()
 
 	if playerExists == 0 {
-		pData, _ := json.Marshal(Player{CurrentSectorId: STARTING_SECTOR})
+		pData, _ := json.Marshal(Player{CurSectorId: STARTING_SECTOR, CurSystemId: STARTING_SYSTEM})
 		err := dbConns.Redis.Set("player-"+userId, pData, 0).Err()
 
 		if err != nil {

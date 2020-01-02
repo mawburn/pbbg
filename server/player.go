@@ -15,7 +15,8 @@ type PlayerMove struct {
 }
 
 type Player struct {
-	CurrentSectorId string `json:"sectorId"`
+	CurSystemId string `json:"system"`
+	CurSectorId string `json:"sectorId"`
 }
 
 func playerMove(w http.ResponseWriter, r *http.Request) {
@@ -28,9 +29,35 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId")
+	userId := r.Context().Value("userId").(string)
 
-	fmt.Println(userId)
+	playerVal, err := dbConns.Redis.Get("player-" + userId).Result()
+
+	if err != nil {
+		Err500(w, []string{"Unable to retrieve player"})
+		return
+	}
+
+	var playerInfo Player
+
+	err = json.Unmarshal([]byte(playerVal), &playerInfo)
+
+	if err != nil {
+		Err500(w, []string{"Unable to retrieve player"})
+		return
+	}
+
+	switch m.Direction {
+	case "up":
+	case "down":
+	case "left":
+	case "right":
+		fmt.Println(playerInfo.CurSectorId)
+		break
+	default:
+		Err500(w, []string{"Invalid Direction"})
+		return
+	}
 
 	rerr := dbConns.Redis.Set("key", m.Direction, 0).Err()
 	if rerr != nil {

@@ -16,13 +16,11 @@ type SectorPlayer struct {
 
 type SectorObject struct {
 	MapObject
-	Max      uint32 `json:"max"`
 	Quantity uint32 `json:"quantity"`
 }
 
 type Sector struct {
-	Id        string          `json:"id"`
-	SystemId  string          `json:"-"`
+	SystemId  string          `json:"systemId"`
 	Celestial *MapCelestial   `json:"celestial"`
 	Objects   []*SectorObject `json:"objects"`
 	Players   []SectorPlayer  `json:"players"`
@@ -61,7 +59,7 @@ func updatePlayers(c *redis.Client, sectorId string, add []SectorPlayer, remove 
 
 	j, _ := json.Marshal(s)
 
-	redisErr := c.Set(s.Id, j, 0).Err()
+	redisErr := c.Set(sectorId, j, 0).Err()
 
 	if redisErr != nil {
 		panic(redisErr)
@@ -79,44 +77,43 @@ func containsPlayer(p SectorPlayer, list []SectorPlayer) bool {
 }
 
 func generateSectors(c *redis.Client) {
-	m := getGameMapStruct()
+	m := getGalaxyMapStruct()
 
-	for _, sys := range m.Systems {
-		for _, row := range sys.Sectors {
-			for _, col := range row {
-				s := Sector{
-					Id:        col.Id,
-					SystemId:  sys.Id,
-					Celestial: col.Celestial,
-					Players:   []SectorPlayer{},
-				}
+	for secId, sec := range m.Sectors {
+		s := Sector{
+			SystemId:  sec.SystemId,
+			Celestial: sec.Celestial,
+			Players:   []SectorPlayer{},
+		}
 
-				for _, obj := range col.Objects {
-					if obj == nil {
-						s.Objects = append(s.Objects, nil)
-						continue
-					}
-
-					so := &SectorObject{
-						MapObject: MapObject{
-							Id:   obj.Id,
-							Type: obj.Type,
-							Max:  obj.Max,
-						},
-						Quantity: obj.Max,
-					}
-
-					s.Objects = append(s.Objects, so)
-				}
-
-				j, _ := json.Marshal(s)
-
-				err := c.Set(s.Id, j, 0).Err()
-
-				if err != nil {
-					panic(err)
-				}
+		for _, obj := range sec.Objects {
+			if obj == nil {
+				s.Objects = append(s.Objects, nil)
+				continue
 			}
+
+			so := &SectorObject{
+				MapObject: MapObject{
+					Id:   obj.Id,
+					Type: obj.Type,
+					Max:  obj.Max,
+				},
+				Quantity: obj.Max,
+			}
+
+			s.Objects = append(s.Objects, so)
+		}
+
+		j, err := json.Marshal(s)
+
+		if err != nil {
+			panic(err)
+		}
+
+		err = c.Set(secId, j, 0).Err()
+
+		if err != nil {
+			panic(err)
 		}
 	}
 }

@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "map": "node mapGenerator"
+  },
+  "dependencies": {
+    "random-words": "^1.1.0",
+    "shortid": "^2.2.15"
+  },
+  "name": "tools",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
