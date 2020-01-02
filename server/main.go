@@ -112,7 +112,6 @@ func authMiddleware(next http.Handler) http.Handler {
 		if path == "/code" || path == "/login" {
 			next.ServeHTTP(w, r)
 		} else {
-
 			cookie, cookieErr := r.Cookie("session_id")
 
 			if cookieErr != nil {
@@ -138,7 +137,7 @@ func authMiddleware(next http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), "userid", jVal.UserId)
+			ctx := context.WithValue(r.Context(), "userId", jVal.UserId)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		}

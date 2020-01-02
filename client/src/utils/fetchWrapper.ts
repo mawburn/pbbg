@@ -170,10 +170,10 @@ const fetchWithErrors = (
         throw new FetchError('Unknown Error', statusCode)
       }
 
-      if (cType === 'json') {
-        return res.json().then((data: any) => {
-          return { statusCode, res: data }
-        })
+      if (statusCode === 204) {
+        return { statusCode, res: {} }
+      } else if (cType === 'json') {
+        return res.json().then((data: any) => ({ statusCode, res: data }))
       } else if (cType === 'text') {
         return res.text()
       } else {

@@ -9,13 +9,13 @@ const Login = () => {
   const [fetchState, runFetch] = useFetch<{ ok: boolean }>('POST', '/login')
 
   useEffect(() => {
-    const { isFetching, response, errors } = fetchState
+    const { isFetching, response, errors, statusCode } = fetchState
 
     if (!isFetching && !response && errors.length === 0) {
       const params = new URLSearchParams(location.search)
 
       runFetch({ code: params.get('code') })
-    } else if (response && response.ok) {
+    } else if (statusCode === 204) {
       history.push('/play')
     }
   }, [fetchState, location, runFetch, history])

@@ -32,7 +32,7 @@ func getSector(id string) {
 
 }
 
-func updatePlayers(c *redis.Client, sectorId string, add []Player, remove []Player) {
+func updatePlayers(c *redis.Client, sectorId string, add []SectorPlayer, remove []SectorPlayer) {
 	sectorByte, err := c.Get(sectorId).Bytes()
 
 	if err != nil {
@@ -47,11 +47,11 @@ func updatePlayers(c *redis.Client, sectorId string, add []Player, remove []Play
 		panic(umErr)
 	}
 
-	var newPlayers []Player
+	var newPlayers []SectorPlayer
 
 	for _, sp := range s.Players {
 		if !containsPlayer(sp, remove) {
-			newPlayers = append(newPlayers, Player{Id: sp.Id})
+			newPlayers = append(newPlayers, SectorPlayer{Id: sp.Id})
 		}
 	}
 
@@ -68,7 +68,7 @@ func updatePlayers(c *redis.Client, sectorId string, add []Player, remove []Play
 	}
 }
 
-func containsPlayer(p SectorPlayer, list []Player) bool {
+func containsPlayer(p SectorPlayer, list []SectorPlayer) bool {
 	for _, li := range list {
 		if li.Id == p.Id {
 			return true

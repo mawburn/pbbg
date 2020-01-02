@@ -15,22 +15,22 @@ type PlayerMove struct {
 }
 
 type Player struct {
-	Id            string
-	CurrentSector string
+	CurrentSectorId string `json:"sectorId"`
 }
 
 func playerMove(w http.ResponseWriter, r *http.Request) {
-	reqToken := r.Header.Get("Authorization")
-	splitToken := strings.Split(reqToken, "Bearer ")
-	reqToken = splitToken[1]
-
 	decoder := json.NewDecoder(r.Body)
 	var m PlayerMove
 	err := decoder.Decode(&m)
 
 	if err != nil {
-		panic(err)
+		Err500(w, []string{"Unable to parse request"})
+		return
 	}
+
+	userId := r.Context().Value("userId")
+
+	fmt.Println(userId)
 
 	rerr := dbConns.Redis.Set("key", m.Direction, 0).Err()
 	if rerr != nil {

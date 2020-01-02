@@ -35,6 +35,7 @@ type UserInfo struct {
 }
 
 var keySet *jwk.Set
+var STARTING_SECTOR string = "z9pGBKT"
 
 func authUser(w http.ResponseWriter, r *http.Request) {
 	oAuth, err := getAuthToken(r.Body)
@@ -51,7 +52,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	claims, ok := token.(struct{ Claims interface{} }).Claims.(jwt.MapClaims)
+	claims, ok := token.Claims.(jwt.MapClaims)
 
 	if !ok {
 		Err500(w, []string{"Token claims invalid"})
@@ -112,6 +113,19 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		Secure:   true,
 	}
 
+	playerExists := dbConns.Redis.Exists("player-" + userId).Val()
+
+	if playerExists == 0 {
+		pData, _ := json.Marshal(Player{CurrentSectorId: STARTING_SECTOR})
+		err := dbConns.Redis.Set("player-"+userId, pData, 0).Err()
+
+		if err != nil {
+			fmt.Println(err)
+			Err500(w, []string{"Error adding player"})
+			return
+		}
+	}
+
 	http.SetCookie(w, &cookie)
 	w.WriteHeader(http.StatusNoContent)
 }
@@ -153,7 +167,7 @@ func getAuthToken(bodyIo io.ReadCloser) (OAuth, error) {
 	return out, err
 }
 
-func parseJwtToken(tokenStr string) (interface{}, error) {
+func parseJwtToken(tokenStr string) (*jwt.Token, error) {
 	if keySet == nil {
 		tmpKeySet, err := jwk.Fetch(envVars.CognitoUrl)
 
