@@ -2,11 +2,15 @@ import { useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import useFetch from '../../hooks/useFetch'
+import { useDispatch } from 'react-redux'
+
+import { User, UserActionTypes } from '../../reducers/user'
 
 const Login = () => {
+  const dispatch = useDispatch()
   const location = useLocation()
   const history = useHistory()
-  const [fetchState, runFetch] = useFetch<{ ok: boolean }>('POST', '/login')
+  const [fetchState, runFetch] = useFetch<User>('POST', '/login')
 
   useEffect(() => {
     const { isFetching, response, errors, statusCode } = fetchState
@@ -15,10 +19,11 @@ const Login = () => {
       const params = new URLSearchParams(location.search)
 
       runFetch({ code: params.get('code') })
-    } else if (statusCode === 204) {
+    } else if (statusCode === 200) {
+      dispatch({ type: UserActionTypes.UPDATE, payload: response })
       history.push('/play')
     }
-  }, [fetchState, location, runFetch, history])
+  }, [fetchState, location, runFetch, history, dispatch])
 
   return null
 }

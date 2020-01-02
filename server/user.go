@@ -137,7 +137,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &cookie)
-	w.WriteHeader(http.StatusNoContent)
+	w.Write(json.RawMessage(`{"id": "`+ userId +`", "email": "`+ user.Email +`"}`))
 }
 
 func getAuthToken(bodyIo io.ReadCloser) (OAuth, error) {

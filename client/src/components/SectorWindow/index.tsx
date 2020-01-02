@@ -7,6 +7,7 @@ import ktn from '../../utils/keyToNumber'
 
 import CelestialComp from './Celestial'
 import SectorObjectComp from './SectorObject'
+import SectorPlayers from './SectorPlayers'
 
 import s from './styles.module.scss'
 
@@ -42,6 +43,9 @@ const SectorWindow: FC = () => {
                 className={s[`site${i}`]}
               />
             )
+          )}
+          {currentSector.players && currentSector.players.length > 1 && (
+            <SectorPlayers className={s.pvp} />
           )}
           <CelestialComp
             data={currentSector.celestial}
