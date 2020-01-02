@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import isEqual from 'lodash/isEqual'
 import cn from 'classnames'
 
 import { AppState } from '../../reducers'
+import { SectorsActionTypes } from '../../reducers/sectors'
 import useFetch from '../../hooks/useFetch'
 
 import arrow from './arrow.svg'
@@ -11,77 +12,43 @@ import deploy from './deploy.svg'
 
 import s from './styles.module.scss'
 
-export type MoveDirection = 'up' | 'down' | 'left' | 'right'
+const Movement: FC = () => {
+  const curSector = useSelector(
+    (state: AppState) => state.sectors.currentSector
+  )
+  const system = useSelector((state: AppState) => state.systems, isEqual)
 
-interface MovementProps {
-  handleMove: (dir: MoveDirection) => void
-}
+  const dispatch = useDispatch()
+  const [moveState, runFetch] = useFetch('POST', '/move')
 
-const Movement: FC<MovementProps> = () => {
-  // const curSector = useSelector((state: AppState) => state.sector, isEqual)
-  // const sectors = useSelector(
-  //   (state: AppState) => state.map.systems[0].sectors,
-  //   isEqual
-  // )
-  // const dispatch = useDispatch()
-  // const [moveState, runFetch] = useFetch('POST', '/move')
+  useEffect(() => {
+    if (!moveState.isFetching && moveState.errors.length === 0 && dispatch) {
+      dispatch({
+        type: SectorsActionTypes.UPDATE,
+        playerUpdate: moveState.response,
+      })
+    }
+  }, [moveState, dispatch])
 
-  // const handleMove = (d: MoveDirection) => {
-  //   const { x, y } = curSector
-  //   runFetch({ direction: d })
-
-  //   console.log(moveState)
-
-  //   switch (d) {
-  //     case 'up':
-  //       if (y - 1 >= 0) {
-  //         dispatch({
-  //           type: SectorActions.MOVE,
-  //           payload: { ...curSector, y: y - 1 },
-  //         })
-  //       }
-  //       return
-  //     case 'down':
-  //       if (y + 1 < sectors.length) {
-  //         dispatch({
-  //           type: SectorActions.MOVE,
-  //           payload: { ...curSector, y: y + 1 },
-  //         })
-  //       }
-  //       return
-  //     case 'right':
-  //       if (x + 1 < sectors[y].length) {
-  //         dispatch({
-  //           type: SectorActions.MOVE,
-  //           payload: { ...curSector, x: x + 1 },
-  //         })
-  //       }
-  //       return
-  //     case 'left':
-  //       if (x - 1 >= 0) {
-  //         dispatch({
-  //           type: SectorActions.MOVE,
-  //           payload: { ...curSector, x: x - 1 },
-  //         })
-  //       }
-  //       return
-  //   }
-  // }
+  const curSystem =
+    system && curSector && curSector.systemId
+      ? system[curSector.systemId]
+      : [[]]
 
   return (
     <div className={s.cont}>
-      {/* <button
-        disabled={curSector.y - 1 < 0}
+      <button
+        disabled={!curSector || curSector.y - 1 < 0}
         className={cn(s.dir, s.upBtn)}
-        onClick={() => handleMove('up')}
+        onClick={() => runFetch({ direction: 'up' })}
       >
         <img src={arrow} className={s.up} alt="up" />
       </button>
 
       <button
-        disabled={curSector.x - 1 < 0}
+        disabled={!curSector || curSector.x - 1 < 0}
         className={cn(s.dir, s.leftBtn)}
-        onClick={() => handleMove('left')}
+        onClick={() => runFetch({ direction: 'left' })}
       >
         <img src={arrow} className={s.left} alt="left" />
       </button>
@@ -91,20 +58,22 @@ const Movement: FC<MovementProps> = () => {
       </button>
 
       <button
-        disabled={curSector.x + 1 > sectors[curSector.y].length - 1}
+        disabled={
+          !curSector || curSector.x + 1 > curSystem[curSector.y].length - 1
+        }
         className={cn(s.dir, s.rightBtn)}
-        onClick={() => handleMove('right')}
+        onClick={() => runFetch({ direction: 'right' })}
       >
         <img src={arrow} className={s.right} alt="right" />
       </button>
 
       <button
-        disabled={curSector.y + 1 > sectors.length - 1}
+        disabled={!curSector || curSector.y + 1 > curSystem.length - 1}
         className={cn(s.dir, s.downBtn)}
-        onClick={() => handleMove('down')}
+        onClick={() => runFetch({ direction: 'down' })}
       >
         <img src={arrow} className={s.down} alt="down" />
-      </button> */}
+      </button>
     </div>
   )
 }

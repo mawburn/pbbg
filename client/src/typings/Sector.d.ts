@@ -4,4 +4,5 @@ declare interface Sector {
   y: number
   celestial: Celestial
   objects: SectorObject[]
+  players?: string[]
 }

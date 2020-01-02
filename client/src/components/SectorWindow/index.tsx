@@ -1,7 +1,6 @@
 import React, { FC, useState, useEffect, CSSProperties } from 'react'
 import cn from 'classnames'
 import { useSelector } from 'react-redux'
-import isEqual from 'lodash/isEqual'
 
 import { AppState } from '../../reducers'
 import ktn from '../../utils/keyToNumber'
@@ -13,21 +12,12 @@ import s from './styles.module.scss'
 
 export type SectorWindowType = 'space'
 
-interface SectorWindowProps {
-  sectorId: string
-  type: SectorWindowType
-}
-
-const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
-  const playerSector = useSelector((state: AppState) => state.playerSector)
-  const sectors = useSelector(
-    (state: AppState) => state.sectors,
-    isEqual
+const SectorWindow: FC = () => {
+  const currentSector = useSelector(
+    (state: AppState) => state.sectors.currentSector
   )
 
-  const [sector, setSector] = useState<Sector | null>(null)
-
-  const getBg = (id: string) => ({
+  const getBg = (id: string = 'pbbg') => ({
     backgroundPosition: `${ktn(id, -1680, 1680)}px ${ktn(id, -480, 480)}px`,
     backgroundSize: `${ktn(id, 225, 800)}px`,
   })
@@ -35,28 +25,28 @@ const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
   const [bg, setBg] = useState<CSSProperties>(getBg(''))
 
   useEffect(() => {
-    const _sector = sectors[playerSector.id]
-
-    if (_sector) {
-      setBg(getBg(playerSector.id))
-      setSector(_sector)
+    if (currentSector) {
+      setBg(getBg(currentSector.id))
     }
-  }, [playerSector, sectors])
+  }, [currentSector])
 
   return (
     <div style={bg} className={cn(s.cont, s.space)}>
-      {sector && (
+      {currentSector && (
         <>
-          {sector.objects.map((o: SectorObject, i: number) =>
+          {currentSector.objects.map((o: SectorObject, i: number) =>
             !o ? null : (
               <SectorObjectComp
-                key={sector.objects[i].id}
-                data={sector.objects[i]}
+                key={currentSector.objects[i].id}
+                data={currentSector.objects[i]}
                 className={s[`site${i}`]}
               />
             )
           )}
-          <CelestialComp data={sector.celestial} className={s.celestial} />
+          <CelestialComp
+            data={currentSector.celestial}
+            className={s.celestial}
+          />
         </>
       )}
     </div>

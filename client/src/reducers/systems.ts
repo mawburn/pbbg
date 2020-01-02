@@ -13,7 +13,10 @@ export interface SystemsAction {
   payload: Systems
 }
 
-export default function sectorsReducer(state: Systems = {}, action: SystemsAction) {
+export default function sectorsReducer(
+  state: Systems = {},
+  action: SystemsAction
+) {
   if (action.type === SystemsActionTypes.LOAD) {
     return clone(action.payload)
   }
