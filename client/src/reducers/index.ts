@@ -1,17 +1,20 @@
 import { combineReducers } from 'redux'
 
-import mapReducer from './map'
-import sectorReducer, { Sector } from './sector'
+import playerSectorReducer, { PlayerSector } from './playerSector'
+import sectorsReducer, { Sectors } from './sectors'
+import systemsReducer, { Systems } from './systems'
 
 export interface AppState {
-  map: GameMap.Map
-  sector: Sector
+  playerSector: PlayerSector
+  sectors: Sectors
+  systems: Systems
 }
 
 const rootReducer = () =>
   combineReducers<AppState>({
-    map: mapReducer,
-    sector: sectorReducer,
+    playerSector: playerSectorReducer,
+    sectors: sectorsReducer,
+    systems: systemsReducer,
   })
 
 export default rootReducer

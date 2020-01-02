@@ -35,8 +35,8 @@ type UserInfo struct {
 }
 
 var keySet *jwk.Set
-var STARTING_SECTOR string = "z9pGBKT"
-var STARTING_SYSTEM string = "8aFKeyh"
+var STARTING_SECTOR string = "0011"
+var STARTING_SYSTEM string = "S001"
 
 func authUser(w http.ResponseWriter, r *http.Request) {
 	oAuth, err := getAuthToken(r.Body)

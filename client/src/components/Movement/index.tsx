@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual'
 import cn from 'classnames'
 
 import { AppState } from '../../reducers'
-import { SectorActions } from '../../reducers/sector'
 import useFetch from '../../hooks/useFetch'
 
 import arrow from './arrow.svg'
@@ -19,59 +18,59 @@ interface MovementProps {
 }
 
 const Movement: FC<MovementProps> = () => {
-  const curSector = useSelector((state: AppState) => state.sector, isEqual)
-  const sectors = useSelector(
-    (state: AppState) => state.map.systems[0].sectors,
-    isEqual
-  )
-  const dispatch = useDispatch()
-  const [moveState, runFetch] = useFetch('POST', '/move')
+  // const curSector = useSelector((state: AppState) => state.sector, isEqual)
+  // const sectors = useSelector(
+  //   (state: AppState) => state.map.systems[0].sectors,
+  //   isEqual
+  // )
+  // const dispatch = useDispatch()
+  // const [moveState, runFetch] = useFetch('POST', '/move')
 
-  const handleMove = (d: MoveDirection) => {
-    const { x, y } = curSector
-    runFetch({ direction: d })
+  // const handleMove = (d: MoveDirection) => {
+  //   const { x, y } = curSector
+  //   runFetch({ direction: d })
 
-    console.log(moveState)
+  //   console.log(moveState)
 
-    switch (d) {
-      case 'up':
-        if (y - 1 >= 0) {
-          dispatch({
-            type: SectorActions.MOVE,
-            payload: { ...curSector, y: y - 1 },
-          })
-        }
-        return
-      case 'down':
-        if (y + 1 < sectors.length) {
-          dispatch({
-            type: SectorActions.MOVE,
-            payload: { ...curSector, y: y + 1 },
-          })
-        }
-        return
-      case 'right':
-        if (x + 1 < sectors[y].length) {
-          dispatch({
-            type: SectorActions.MOVE,
-            payload: { ...curSector, x: x + 1 },
-          })
-        }
-        return
-      case 'left':
-        if (x - 1 >= 0) {
-          dispatch({
-            type: SectorActions.MOVE,
-            payload: { ...curSector, x: x - 1 },
-          })
-        }
-        return
-    }
-  }
+  //   switch (d) {
+  //     case 'up':
+  //       if (y - 1 >= 0) {
+  //         dispatch({
+  //           type: SectorActions.MOVE,
+  //           payload: { ...curSector, y: y - 1 },
+  //         })
+  //       }
+  //       return
+  //     case 'down':
+  //       if (y + 1 < sectors.length) {
+  //         dispatch({
+  //           type: SectorActions.MOVE,
+  //           payload: { ...curSector, y: y + 1 },
+  //         })
+  //       }
+  //       return
+  //     case 'right':
+  //       if (x + 1 < sectors[y].length) {
+  //         dispatch({
+  //           type: SectorActions.MOVE,
+  //           payload: { ...curSector, x: x + 1 },
+  //         })
+  //       }
+  //       return
+  //     case 'left':
+  //       if (x - 1 >= 0) {
+  //         dispatch({
+  //           type: SectorActions.MOVE,
+  //           payload: { ...curSector, x: x - 1 },
+  //         })
+  //       }
+  //       return
+  //   }
+  // }
 
   return (
     <div className={s.cont}>
-      <button
+      {/* <button
         disabled={curSector.y - 1 < 0}
         className={cn(s.dir, s.upBtn)}
         onClick={() => handleMove('up')}
@@ -105,7 +104,7 @@ const Movement: FC<MovementProps> = () => {
         onClick={() => handleMove('down')}
       >
         <img src={arrow} className={s.down} alt="down" />
-      </button>
+      </button> */}
     </div>
   )
 }

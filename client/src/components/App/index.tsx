@@ -4,15 +4,21 @@ import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
 import SectorWindow from '../SectorWindow'
 import Movement from '../Movement'
-import { MapActions } from '../../reducers/map'
+import { SectorsActionTypes, Sectors } from '../../reducers/sectors'
+import { SystemsActionTypes, Systems } from '../../reducers/systems'
 
 import randomString from '../../utils/randomString'
 
 import s from './styles.module.scss'
 
+interface MapResponse {
+  systems: Systems
+  sectors: Sectors
+}
+
 const App: FC = () => {
   const [sectorId, setSectorId] = useState<string>(randomString(10))
-  const [fetchState, callFetch] = useFetch('GET', '/map')
+  const [fetchState, callFetch] = useFetch<MapResponse>('GET', '/map')
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,9 +33,16 @@ const App: FC = () => {
 
   useEffect(() => {
     if (!fetchState.isFetching && fetchState.response && dispatch) {
+      const { systems, sectors } = fetchState.response
+
       dispatch({
-        type: MapActions.LOAD,
-        payload: fetchState.response,
+        type: SystemsActionTypes.LOAD,
+        payload: systems,
+      })
+
+      dispatch({
+        type: SectorsActionTypes.LOAD,
+        payload: sectors,
       })
     }
   }, [fetchState, dispatch])

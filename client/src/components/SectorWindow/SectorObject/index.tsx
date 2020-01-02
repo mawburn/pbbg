@@ -6,8 +6,8 @@ import useMax2BgSize from './useMax2BgSize'
 
 import s from './styles.module.scss'
 
-export interface SectorObject {
-  data: GameMap.SectorObject | null
+export interface SectorObjectProps {
+  data: SectorObject | null
   className: string
 }
 
@@ -18,7 +18,7 @@ export interface SectorObject {
 //   return s[`speed-${_speed}${_dir}`]
 // }
 
-const SectorObject: FC<SectorObject> = ({ data, className }) => {
+const SectorObject: FC<SectorObjectProps> = ({ data, className }) => {
   // const clssIndex = useRef<string>(getClass())
   const size = useMax2BgSize(data ? data.max : 0)
 

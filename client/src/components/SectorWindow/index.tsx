@@ -6,8 +6,8 @@ import isEqual from 'lodash/isEqual'
 import { AppState } from '../../reducers'
 import ktn from '../../utils/keyToNumber'
 
-import Celestial from './Celestial'
-import SectorObject from './SectorObject'
+import CelestialComp from './Celestial'
+import SectorObjectComp from './SectorObject'
 
 import s from './styles.module.scss'
 
@@ -19,13 +19,13 @@ interface SectorWindowProps {
 }
 
 const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
-  const curSector = useSelector((state: AppState) => state.sector, isEqual)
+  const playerSector = useSelector((state: AppState) => state.playerSector)
   const sectors = useSelector(
-    (state: AppState) => state.map.systems[0].sectors,
+    (state: AppState) => state.sectors,
     isEqual
   )
 
-  const [sector, setSector] = useState<GameMap.Sector | null>(null)
+  const [sector, setSector] = useState<Sector | null>(null)
 
   const getBg = (id: string) => ({
     backgroundPosition: `${ktn(id, -1680, 1680)}px ${ktn(id, -480, 480)}px`,
@@ -35,28 +35,28 @@ const SectorWindow: FC<SectorWindowProps> = ({ sectorId, type }) => {
   const [bg, setBg] = useState<CSSProperties>(getBg(''))
 
   useEffect(() => {
-    const _sector = sectors[curSector.y][curSector.x]
+    const _sector = sectors[playerSector.id]
 
     if (_sector) {
-      setBg(getBg(_sector.id))
+      setBg(getBg(playerSector.id))
       setSector(_sector)
     }
-  }, [curSector, sectors])
+  }, [playerSector, sectors])
 
   return (
     <div style={bg} className={cn(s.cont, s.space)}>
       {sector && (
         <>
-          {sector.objects.map((o, i) =>
+          {sector.objects.map((o: SectorObject, i: number) =>
             !o ? null : (
-              <SectorObject
+              <SectorObjectComp
                 key={sector.objects[i].id}
                 data={sector.objects[i]}
                 className={s[`site${i}`]}
               />
             )
           )}
-          <Celestial data={sector.celestial} className={s.celestial} />
+          <CelestialComp data={sector.celestial} className={s.celestial} />
         </>
       )}
     </div>
