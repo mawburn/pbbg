@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 var LG_MAX int = 10000000
@@ -20,10 +21,34 @@ type Sector struct {
 	Players   []string        `json:"players"`
 }
 
-func getSector(id string) {
+func getSector(id string) (Sector, error) {
+	sectorResult, err := dbConns.Redis.Get(id).Bytes()
 
+	if err != nil {
+		return Sector{}, fmt.Errorf("Unable to get sector")
+	}
+
+	var sector Sector
+
+	err = json.Unmarshal(sectorResult, &sector)
+
+	if err != nil {
+		return Sector{}, fmt.Errorf("Unable to get sector")
+	}
+
+	return sector, nil
 }
 
+func movePlayer(userId string, fromSector string, toSector string) {
+	user := []string{userId}
+
+	updatePlayers(fromSector, []string{}, user)
+	updatePlayers(toSector, user, []string{})
+}
+
+/**
+* built for when queing comes into effect
+**/
 func updatePlayers(sectorId string, add []string, remove []string) {
 	sectorByte, err := dbConns.Redis.Get(sectorId).Bytes()
 
@@ -49,6 +74,12 @@ func updatePlayers(sectorId string, add []string, remove []string) {
 
 	for _, a := range add {
 		newPlayers = append(newPlayers, a)
+	}
+
+	if newPlayers != nil {
+		s.Players = newPlayers
+	} else {
+		s.Players = []string{}
 	}
 
 	j, _ := json.Marshal(s)

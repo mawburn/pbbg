@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -37,6 +38,8 @@ var keySet *jwk.Set
 var STARTING_SECTOR string = "0011"
 var STARTING_SYSTEM string = "S001"
 
+var USERID_SALT string = "Matt's PBBG!! and Aspen helped :)"
+
 func authUser(w http.ResponseWriter, r *http.Request) {
 	oAuth, err := getAuthToken(r.Body)
 
@@ -59,7 +62,15 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := claims["cognito:username"].(string)
+	cognitoUserId := claims["cognito:username"].(string)
+
+	h := sha1.New()
+	h.Write([]byte(cognitoUserId + USERID_SALT))
+
+	bs := fmt.Sprintf("%x", h.Sum(nil))
+
+	userIdRune := []rune(bs)
+	userId := string(userIdRune[0:20])
 
 	userVal, err := dbConns.Redis.Get(userId).Result()
 

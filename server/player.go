@@ -75,25 +75,27 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 	sector := galaxyMap.Sectors[playerInfo.CurSectorId]
 	system := galaxyMap.Systems[playerInfo.CurSystemId]
 
+	oldSectorId := playerInfo.CurSectorId
+
 	switch m.Direction {
 	case "up":
-		if sector.Ypos - 1 >= 0 {
-			playerInfo.CurSectorId = system[sector.Ypos - 1][sector.Xpos]
+		if sector.Ypos-1 >= 0 {
+			playerInfo.CurSectorId = system[sector.Ypos-1][sector.Xpos]
 		}
 		break
 	case "down":
-		if int(sector.Ypos) + 1 <= len(system) - 1 {
-			playerInfo.CurSectorId = system[sector.Ypos + 1][sector.Xpos]
+		if int(sector.Ypos)+1 <= len(system)-1 {
+			playerInfo.CurSectorId = system[sector.Ypos+1][sector.Xpos]
 		}
 		break
 	case "left":
-		if sector.Xpos - 1 >= 0 {
-			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos - 1]
+		if sector.Xpos-1 >= 0 {
+			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos-1]
 		}
 		break
 	case "right":
-		if int(sector.Xpos) + 1 <= len(system[sector.Ypos]) - 1 {
-			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos + 1]
+		if int(sector.Xpos)+1 <= len(system[sector.Ypos])-1 {
+			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos+1]
 		}
 		break
 	default:
@@ -108,15 +110,19 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = dbConns.Redis.Set("player-" + userId, jPlayer, 0).Err()
+	err = dbConns.Redis.Set("player-"+userId, jPlayer, 0).Err()
 	if err != nil {
 		Err500(w, []string{"Error updating player"})
 		return
 	}
 
+	movePlayer(userId, oldSectorId, playerInfo.CurSectorId)
+
+	newSector, err := getSector(playerInfo.CurSectorId)
+
 	pSector := PlayerSector{
 		SectorId: playerInfo.CurSectorId,
-		Players: []string{},
+		Players:  newSector.Players,
 	}
 
 	jPlayerOut, err := json.Marshal(pSector)
