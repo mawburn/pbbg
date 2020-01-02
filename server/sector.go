@@ -2,8 +2,6 @@ package main
 
 import (
 	"encoding/json"
-
-	"github.com/go-redis/redis/v7"
 )
 
 var LG_MAX int = 10000000
@@ -26,8 +24,8 @@ func getSector(id string) {
 
 }
 
-func updatePlayers(c *redis.Client, sectorId string, add []string, remove []string) {
-	sectorByte, err := c.Get(sectorId).Bytes()
+func updatePlayers(sectorId string, add []string, remove []string) {
+	sectorByte, err := dbConns.Redis.Get(sectorId).Bytes()
 
 	if err != nil {
 		panic(err)
@@ -55,7 +53,7 @@ func updatePlayers(c *redis.Client, sectorId string, add []string, remove []stri
 
 	j, _ := json.Marshal(s)
 
-	redisErr := c.Set(sectorId, j, 0).Err()
+	redisErr := dbConns.Redis.Set(sectorId, j, 0).Err()
 
 	if redisErr != nil {
 		panic(redisErr)
@@ -72,7 +70,7 @@ func containsPlayer(p string, list []string) bool {
 	return false
 }
 
-func generateSectors(c *redis.Client) {
+func generateSectors() {
 	m := getGalaxyMapStruct()
 
 	for secId, sec := range m.Sectors {
@@ -106,7 +104,7 @@ func generateSectors(c *redis.Client) {
 			panic(err)
 		}
 
-		err = c.Set(secId, j, 0).Err()
+		err = dbConns.Redis.Set(secId, j, 0).Err()
 
 		if err != nil {
 			panic(err)

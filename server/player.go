@@ -72,24 +72,56 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	sector := galaxyMap.Sectors[playerInfo.CurSectorId]
+	system := galaxyMap.Systems[playerInfo.CurSystemId]
+
 	switch m.Direction {
 	case "up":
+		if sector.Ypos - 1 >= 0 {
+			playerInfo.CurSectorId = system[sector.Ypos - 1][sector.Xpos]
+		}
+		break
 	case "down":
+		if int(sector.Ypos) + 1 <= len(system) - 1 {
+			playerInfo.CurSectorId = system[sector.Ypos + 1][sector.Xpos]
+		}
+		break
 	case "left":
+		if sector.Xpos - 1 >= 0 {
+			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos - 1]
+		}
+		break
 	case "right":
-		fmt.Println(playerInfo.CurSectorId)
+		if int(sector.Xpos) + 1 <= len(system[sector.Ypos]) - 1 {
+			playerInfo.CurSectorId = system[sector.Ypos][sector.Xpos + 1]
+		}
 		break
 	default:
 		Err500(w, []string{"Invalid Direction"})
 		return
 	}
 
-	rerr := dbConns.Redis.Set("key", m.Direction, 0).Err()
-	if rerr != nil {
-		panic(rerr)
+	jPlayer, err := json.Marshal(playerInfo)
+
+	if err != nil {
+		Err500(w, []string{"Error marshalling player"})
+		return
 	}
 
-	w.Write(json.RawMessage(`{"precomputed": true}`))
+	err = dbConns.Redis.Set("player-" + userId, jPlayer, 0).Err()
+	if err != nil {
+		Err500(w, []string{"Error updating player"})
+		return
+	}
+
+	pSector := PlayerSector{
+		SectorId: playerInfo.CurSectorId,
+		Players: []string{},
+	}
+
+	jPlayerOut, err := json.Marshal(pSector)
+
+	w.Write(jPlayerOut)
 }
 
 func getToken(r *http.Request, c *redis.Client) string {

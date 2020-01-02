@@ -47,7 +47,7 @@ func main() {
 	initActions()
 	r := initApi()
 
-	generateSectors(dbConns.Redis)
+	generateSectors()
 
 	log.Fatal(http.ListenAndServe(":4242", r))
 
