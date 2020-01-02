@@ -80,7 +80,7 @@ function main() {
 
       sectors[id].x = col
       sectors[id].y = row
-      sectors[id].system = systemId
+      sectors[id].systemId = systemId
     }
 
     map.systems[systemId].push(rowArr)

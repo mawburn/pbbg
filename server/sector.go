@@ -10,10 +10,6 @@ var LG_MAX int = 10000000
 var MD_MAX int = 1000000
 var SM_MAX int = 100000
 
-type SectorPlayer struct {
-	Id string `json:"id"`
-}
-
 type SectorObject struct {
 	MapObject
 	Quantity uint32 `json:"quantity"`
@@ -23,14 +19,14 @@ type Sector struct {
 	SystemId  string          `json:"systemId"`
 	Celestial *MapCelestial   `json:"celestial"`
 	Objects   []*SectorObject `json:"objects"`
-	Players   []SectorPlayer  `json:"players"`
+	Players   []string        `json:"players"`
 }
 
 func getSector(id string) {
 
 }
 
-func updatePlayers(c *redis.Client, sectorId string, add []SectorPlayer, remove []SectorPlayer) {
+func updatePlayers(c *redis.Client, sectorId string, add []string, remove []string) {
 	sectorByte, err := c.Get(sectorId).Bytes()
 
 	if err != nil {
@@ -45,11 +41,11 @@ func updatePlayers(c *redis.Client, sectorId string, add []SectorPlayer, remove 
 		panic(umErr)
 	}
 
-	var newPlayers []SectorPlayer
+	var newPlayers []string
 
 	for _, sp := range s.Players {
 		if !containsPlayer(sp, remove) {
-			newPlayers = append(newPlayers, SectorPlayer{Id: sp.Id})
+			newPlayers = append(newPlayers, sp)
 		}
 	}
 
@@ -66,9 +62,9 @@ func updatePlayers(c *redis.Client, sectorId string, add []SectorPlayer, remove 
 	}
 }
 
-func containsPlayer(p SectorPlayer, list []SectorPlayer) bool {
+func containsPlayer(p string, list []string) bool {
 	for _, li := range list {
-		if li.Id == p.Id {
+		if li == p {
 			return true
 		}
 	}
@@ -83,7 +79,7 @@ func generateSectors(c *redis.Client) {
 		s := Sector{
 			SystemId:  sec.SystemId,
 			Celestial: sec.Celestial,
-			Players:   []SectorPlayer{},
+			Players:   []string{},
 		}
 
 		for _, obj := range sec.Objects {

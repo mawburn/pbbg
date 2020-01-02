@@ -29,7 +29,6 @@ type OAuth struct {
 type UserInfo struct {
 	Email      string  `json:"email"`
 	PlayerName *string `json:"playerName"`
-	UserName   string  `json:"userName"`
 	LastLogin  int32   `json:"lastLogin`
 	UserId     string  `json:"userId"`
 }
@@ -69,7 +68,6 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		user = UserInfo{
 			Email:     claims["email"].(string),
-			UserName:  userId,
 			LastLogin: int32(time.Now().Unix()),
 			UserId:    userId,
 		}

@@ -91,8 +91,14 @@ func initApi() *chi.Mux {
 		authMiddleware,
 	)
 
-	r.Get("/map", getGalaxyMap)
+	// Auth
 	r.Post("/login", authUser)
+
+	// Map
+	r.Get("/map", getGalaxyMap)
+
+	// Player Actions
+	r.Get("/currentSector", playerSector)
 	r.Post("/move", playerMove)
 
 	return r

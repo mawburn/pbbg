@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import useFetch from '../../hooks/useFetch'
 import SectorWindow from '../SectorWindow'
 import Movement from '../Movement'
+import { AppState } from '../../reducers'
 import { SectorsActionTypes, Sectors } from '../../reducers/sectors'
 import { SystemsActionTypes, Systems } from '../../reducers/systems'
 
@@ -15,7 +16,14 @@ interface MapResponse {
 }
 
 const App: FC = () => {
+  const currentSector = useSelector(
+    (state: AppState) => state.sectors.currentSector
+  )
   const [fetchState, callFetch] = useFetch<MapResponse>('GET', '/map')
+  const [fetchSector, callFetchSector] = useFetch<Sector>(
+    'GET',
+    '/currentSector'
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -43,6 +51,29 @@ const App: FC = () => {
       })
     }
   }, [fetchState, dispatch])
+
+  useEffect(() => {
+    const { isFetching, errors } = fetchSector
+
+    if (
+      currentSector === null &&
+      !isFetching &&
+      errors.length === 0 &&
+      !fetchState.isFetching &&
+      fetchState.errors.length === 0 &&
+      fetchState.response
+    ) {
+      callFetchSector()
+    }
+  }, [currentSector, fetchSector, callFetchSector, fetchState])
+
+  useEffect(() => {
+    const { isFetching, errors, response } = fetchSector
+
+    if (!isFetching && errors.length === 0 && response) {
+      dispatch({ type: SectorsActionTypes.UPDATE, playerUpdate: response })
+    }
+  }, [fetchSector, dispatch])
 
   return (
     <div className={s.app}>
