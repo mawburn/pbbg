@@ -32,6 +32,7 @@ var envVars EnvVars
 var dbConns DBConns
 
 func main() {
+	runTicker()
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")

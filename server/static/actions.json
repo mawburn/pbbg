@@ -1,10 +1,14 @@
 {
   "move": {
     "class": "move",
-    "weight": 10
+    "weight": 20
   },
   "gather": {
     "class": "gather",
-    "weight": 20
+    "weight": 40
+  },
+  "attack": {
+    "class": "attack",
+    "weight": 60
   }
 }
