@@ -2,7 +2,8 @@ package main
 
 import (
 	"encoding/json"
-//	"fmt"
+	"sync"
+	//	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -25,22 +26,23 @@ var actions map[string]*Action
 // This is done because we want to process actions in hard precedence based on type
 var systemActions map[string]map[string][]PlayerAction
 
+var lock = sync.RWMutex{}
+
 func getAction(id string) *Action {
 	return actions[id]
 }
 
 func addAction(sysId string, pAction PlayerAction) {
+	lock.Lock()
+	defer lock.Unlock()
+
+	// If the system doesn't exist, then go ahead an add the player's action
 	if _, ok := systemActions[sysId]; !ok {
-		systemActions[sysId][pAction.ActionType] =  []PlayerAction{pAction}
+		systemActions[sysId][pAction.ActionType] = []PlayerAction{pAction}
 		return
 	}
 
-	if _, ok := systemActions[sysId][pAction.ActionType]; !ok {
-		systemActions[sysId][pAction.ActionType] =  []PlayerAction{pAction}
-		return
-	}
-
-
+	// Check if the player already has actions queued & remove them
 	var userLastAction int
 
 	userLastAction = -1
@@ -56,10 +58,18 @@ func addAction(sysId string, pAction PlayerAction) {
 		systemActions[sysId][pAction.ActionType] = systemActions[sysId][pAction.ActionType][:len(systemActions[sysId][pAction.ActionType])-1]
 	}
 
+	// If the action type doesn't have any actions, just add the player's action
+	if _, ok := systemActions[sysId][pAction.ActionType]; !ok {
+		systemActions[sysId][pAction.ActionType] = []PlayerAction{pAction}
+		return
+	}
+
 	systemActions[sysId][pAction.ActionType] = append(systemActions[sysId][pAction.ActionType], pAction)
+	return
 }
 
 func initActions() {
+
 	actionFile, err := os.Open("./static/actions.json")
 
 	if err != nil {
