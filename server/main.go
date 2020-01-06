@@ -153,10 +153,3 @@ func authMiddleware(next http.Handler) http.Handler {
 		}
 	})
 }
-
-func Err500(w http.ResponseWriter, errors []string) {
-	errArr, _ := json.Marshal(errors)
-
-	w.WriteHeader(http.StatusInternalServerError)
-	w.Write(json.RawMessage(`{"errors": ` + string(errArr) + `}`))
-}
