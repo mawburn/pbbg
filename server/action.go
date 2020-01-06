@@ -2,16 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"sync"
-	//	"fmt"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"sync"
 )
-
-type Action struct {
-	Class  string `json:"class"`
-	Weight uint8  `json:"weight"`
-}
 
 type PlayerAction struct {
 	UserId     string
@@ -20,17 +15,13 @@ type PlayerAction struct {
 	// we'll probably need more stuff here or in command
 }
 
-var actions map[string]*Action
+var actions []string
 
 // System ID mapped to a map that contains an array of player actions
 // This is done because we want to process actions in hard precedence based on type
 var systemActions map[string]map[string][]PlayerAction
 
 var lock = sync.RWMutex{}
-
-func getAction(id string) *Action {
-	return actions[id]
-}
 
 func addAction(sysId string, pAction PlayerAction) {
 	lock.Lock()
@@ -89,4 +80,6 @@ func initActions() {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Loaded Actions", string(byteValue))
 }

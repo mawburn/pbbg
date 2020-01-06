@@ -32,7 +32,6 @@ var envVars EnvVars
 var dbConns DBConns
 
 func main() {
-	runTicker()
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -49,6 +48,10 @@ func main() {
 	r := initApi()
 
 	generateSectors()
+
+	go func() {
+		runTicker()
+	}()
 
 	log.Fatal(http.ListenAndServe(":4242", r))
 

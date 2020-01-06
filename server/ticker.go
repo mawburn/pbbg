@@ -1,26 +1,26 @@
 package main
 
 import (
-	"fmt"
+	//	"fmt"
+	"math/rand"
 	"time"
 )
 
 func runTicker() {
 	ticker := time.NewTicker(1 * time.Second)
-	done := make(chan bool)
-	go func() {
-		for {
-			select {
-			case <-done:
-				return
-			case t := <-ticker.C:
-				fmt.Println("Tick at", t)
-			}
-		}
-	}()
+	for _ = range ticker.C {
+		runActions()
+	}
+}
 
-	time.Sleep(30 * time.Second)
-	ticker.Stop()
-	done <- true
-	fmt.Println("Ticker stopped")
+func runActions() {
+	for _, sys := range systemActions {
+		go func() {
+			for _, action := range actions {
+				// shuffle player actions
+				rand.Seed(time.Now().UnixNano())
+				rand.Shuffle(len(sys[action]), func(i, j int) { sys[action][i], sys[action][j] = sys[action][j], sys[action][i] })
+			}
+		}()
+	}
 }

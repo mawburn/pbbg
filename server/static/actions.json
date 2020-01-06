@@ -1,14 +1,1 @@
-{
-  "move": {
-    "class": "move",
-    "weight": 20
-  },
-  "gather": {
-    "class": "gather",
-    "weight": 40
-  },
-  "attack": {
-    "class": "attack",
-    "weight": 60
-  }
-}
+["move", "gather", "attack"]
