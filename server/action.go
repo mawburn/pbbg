@@ -8,8 +8,9 @@ import (
 	"sync"
 )
 
+// PlayerAction - holds information about actions players have taken
 type PlayerAction struct {
-	UserId     string
+	UserID     string
 	ActionType string
 	Command    string
 	// we'll probably need more stuff here or in command
@@ -23,13 +24,13 @@ var systemActions map[string]map[string][]PlayerAction
 
 var lock = sync.RWMutex{}
 
-func addAction(sysId string, pAction PlayerAction) {
+func addAction(sysID string, pAction PlayerAction) {
 	lock.Lock()
 	defer lock.Unlock()
 
 	// If the system doesn't exist, then go ahead an add the player's action
-	if _, ok := systemActions[sysId]; !ok {
-		systemActions[sysId][pAction.ActionType] = []PlayerAction{pAction}
+	if _, ok := systemActions[sysID]; !ok {
+		systemActions[sysID][pAction.ActionType] = []PlayerAction{pAction}
 		return
 	}
 
@@ -38,24 +39,24 @@ func addAction(sysId string, pAction PlayerAction) {
 
 	userLastAction = -1
 
-	for i, v := range systemActions[sysId][pAction.ActionType] {
-		if v.UserId == pAction.UserId {
+	for i, v := range systemActions[sysID][pAction.ActionType] {
+		if v.UserID == pAction.UserID {
 			userLastAction = i
 		}
 	}
 
 	if userLastAction != -1 {
-		systemActions[sysId][pAction.ActionType][userLastAction] = systemActions[sysId][pAction.ActionType][len(systemActions[sysId][pAction.ActionType])-1]
-		systemActions[sysId][pAction.ActionType] = systemActions[sysId][pAction.ActionType][:len(systemActions[sysId][pAction.ActionType])-1]
+		systemActions[sysID][pAction.ActionType][userLastAction] = systemActions[sysID][pAction.ActionType][len(systemActions[sysID][pAction.ActionType])-1]
+		systemActions[sysID][pAction.ActionType] = systemActions[sysID][pAction.ActionType][:len(systemActions[sysID][pAction.ActionType])-1]
 	}
 
 	// If the action type doesn't have any actions, just add the player's action
-	if _, ok := systemActions[sysId][pAction.ActionType]; !ok {
-		systemActions[sysId][pAction.ActionType] = []PlayerAction{pAction}
+	if _, ok := systemActions[sysID][pAction.ActionType]; !ok {
+		systemActions[sysID][pAction.ActionType] = []PlayerAction{pAction}
 		return
 	}
 
-	systemActions[sysId][pAction.ActionType] = append(systemActions[sysId][pAction.ActionType], pAction)
+	systemActions[sysID][pAction.ActionType] = append(systemActions[sysID][pAction.ActionType], pAction)
 	return
 }
 

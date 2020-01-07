@@ -56,7 +56,7 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.Context().Value("userId").(string)
 
-	playerVal, err := dbConns.Redis.Get("player-" + userId).Result()
+	playerVal, err := dbConns.Redis.Get("player:" + userId).Result()
 
 	if err != nil {
 		Err500(w, []string{"Unable to retrieve player"})
@@ -110,7 +110,7 @@ func playerMove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = dbConns.Redis.Set("player-"+userId, jPlayer, 0).Err()
+	err = dbConns.Redis.Set("player:"+userId, jPlayer, 0).Err()
 	if err != nil {
 		Err500(w, []string{"Error updating player"})
 		return
@@ -147,7 +147,7 @@ func getToken(r *http.Request, c *redis.Client) string {
 }
 
 func getCurrentSector(userId string) (PlayerSector, error) {
-	playerVal, err := dbConns.Redis.Get("player-" + userId).Result()
+	playerVal, err := dbConns.Redis.Get("player:" + userId).Result()
 
 	if err != nil {
 		return PlayerSector{}, fmt.Errorf("Get Current Sector - Error retrieving player")
@@ -161,7 +161,7 @@ func getCurrentSector(userId string) (PlayerSector, error) {
 		return PlayerSector{}, fmt.Errorf("Get Current Sector - Error unmarshalling player")
 	}
 
-	sectorVal, err := dbConns.Redis.Get(player.CurSectorId).Result()
+	sectorVal, err := dbConns.Redis.Get("sector:"+player.CurSectorId).Result()
 
 	if err != nil {
 		return PlayerSector{}, fmt.Errorf("Get Current Sector - Error retrieving sector")

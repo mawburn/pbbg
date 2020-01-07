@@ -8,26 +8,30 @@ import (
 	"os"
 )
 
+// MapObject - objects in space as represtented on the map
 type MapObject struct {
-	Id   string `json:"id"`
+	ID   string `json:"id"`
 	Type string `json:"type"`
 	Max  uint32 `json:"max"`
 }
 
+// MapCelestial - celestials in space as represtented on the map
 type MapCelestial struct {
-	Id   string `json:"id"`
+	ID   string `json:"id"`
 	Name string `"json:"name"`
 	Type string `json:"type"`
 }
 
+// MapSector - sectors as represented on the map
 type MapSector struct {
-	SystemId  string        `json:"systemId"`
+	SystemID  string        `json:"systemId"`
 	Xpos      uint8         `json:"x"`
 	Ypos      uint8         `json:"y"`
 	Celestial *MapCelestial `json:"celestial"`
 	Objects   []*MapObject  `json:"objects"`
 }
 
+// GalaxyMap - the full game map
 type GalaxyMap struct {
 	Sectors map[string]MapSector  `json:"sectors"`
 	Systems map[string][][]string `json:"systems"`

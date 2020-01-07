@@ -15,15 +15,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// EnvVars - holds enviroment variables to be pulled in
 type EnvVars struct {
 	RedisPassword string
-	OauthUrl      string
+	OauthURL      string
 	OauthRedirect string
-	ClientId      string
+	ClientID      string
 	ClientSecret  string
-	CognitoUrl    string
+	CognitoURL    string
 }
 
+// DBConns - holds connections to databases
 type DBConns struct {
 	Redis *redis.Client
 }
@@ -38,14 +40,14 @@ func main() {
 	}
 
 	envVars.RedisPassword = os.Getenv("REDIS_PASS")
-	envVars.OauthUrl = os.Getenv("OAUTH_URL")
+	envVars.OauthURL = os.Getenv("OAUTH_URL")
 	envVars.OauthRedirect = os.Getenv("OAUTH_REDIRECT")
-	envVars.ClientId = os.Getenv("OAUTH_CLIENT_ID")
+	envVars.ClientID = os.Getenv("OAUTH_CLIENT_ID")
 	envVars.ClientSecret = os.Getenv("OAUTH_CLIENT_SECRET")
-	envVars.CognitoUrl = os.Getenv("COGNITO_KEY_URL")
+	envVars.CognitoURL = os.Getenv("COGNITO_KEY_URL")
 
 	initActions()
-	r := initApi()
+	r := initAPI()
 
 	generateSectors()
 
@@ -62,7 +64,7 @@ func ticker() {
 
 }
 
-func initApi() *chi.Mux {
+func initAPI() *chi.Mux {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: envVars.RedisPassword,
@@ -130,7 +132,7 @@ func authMiddleware(next http.Handler) http.Handler {
 				return
 			}
 
-			redisVal, redisErr := dbConns.Redis.Get(cookie.Value).Result()
+			redisVal, redisErr := dbConns.Redis.Get("session:"+cookie.Value).Result()
 
 			if redisErr != nil {
 				w.WriteHeader(http.StatusUnauthorized)
@@ -147,7 +149,7 @@ func authMiddleware(next http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), "userId", jVal.UserId)
+			ctx := context.WithValue(r.Context(), "userId", jVal.UserID)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		}

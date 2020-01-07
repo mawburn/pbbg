@@ -5,24 +5,26 @@ import (
 	"fmt"
 )
 
-var LG_MAX int = 10000000
-var MD_MAX int = 1000000
-var SM_MAX int = 100000
+const LG_MAX int = 10000000
+const MD_MAX int = 1000000
+const SM_MAX int = 100000
 
+// SectorObject - objects represented as the player is looking at them
 type SectorObject struct {
 	MapObject
 	Quantity uint32 `json:"quantity"`
 }
 
+// Sector - sectors as the player is looking at them
 type Sector struct {
-	SystemId  string          `json:"systemId"`
+	SystemID  string          `json:"systemId"`
 	Celestial *MapCelestial   `json:"celestial"`
 	Objects   []*SectorObject `json:"objects"`
 	Players   []string        `json:"players"`
 }
 
-func getSector(id string) (Sector, error) {
-	sectorResult, err := dbConns.Redis.Get(id).Bytes()
+func getSector(ID string) (Sector, error) {
+	sectorResult, err := dbConns.Redis.Get("sector:"+ID).Bytes()
 
 	if err != nil {
 		return Sector{}, fmt.Errorf("Unable to get sector")
@@ -39,8 +41,8 @@ func getSector(id string) (Sector, error) {
 	return sector, nil
 }
 
-func movePlayer(userId string, fromSector string, toSector string) {
-	user := []string{userId}
+func movePlayer(userID string, fromSector string, toSector string) {
+	user := []string{userID}
 
 	updatePlayers(fromSector, []string{}, user)
 	updatePlayers(toSector, user, []string{})
@@ -49,8 +51,8 @@ func movePlayer(userId string, fromSector string, toSector string) {
 /**
 * built for when queing comes into effect
 **/
-func updatePlayers(sectorId string, add []string, remove []string) {
-	sectorByte, err := dbConns.Redis.Get(sectorId).Bytes()
+func updatePlayers(sectorID string, add []string, remove []string) {
+	sectorByte, err := dbConns.Redis.Get("sector:"+sectorID).Bytes()
 
 	if err != nil {
 		panic(err)
@@ -84,7 +86,7 @@ func updatePlayers(sectorId string, add []string, remove []string) {
 
 	j, _ := json.Marshal(s)
 
-	redisErr := dbConns.Redis.Set(sectorId, j, 0).Err()
+	redisErr := dbConns.Redis.Set("sector:"+sectorID, j, 0).Err()
 
 	if redisErr != nil {
 		panic(redisErr)
@@ -104,9 +106,9 @@ func containsPlayer(p string, list []string) bool {
 func generateSectors() {
 	m := getGalaxyMapStruct()
 
-	for secId, sec := range m.Sectors {
+	for secID, sec := range m.Sectors {
 		s := Sector{
-			SystemId:  sec.SystemId,
+			SystemID:  sec.SystemID,
 			Celestial: sec.Celestial,
 			Players:   []string{},
 		}
@@ -119,7 +121,7 @@ func generateSectors() {
 
 			so := &SectorObject{
 				MapObject: MapObject{
-					Id:   obj.Id,
+					ID:   obj.ID,
 					Type: obj.Type,
 					Max:  obj.Max,
 				},
@@ -135,7 +137,7 @@ func generateSectors() {
 			panic(err)
 		}
 
-		err = dbConns.Redis.Set(secId, j, 0).Err()
+		err = dbConns.Redis.Set("sector:" +secID, j, 0).Err()
 
 		if err != nil {
 			panic(err)

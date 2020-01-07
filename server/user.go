@@ -15,30 +15,31 @@ import (
 	"github.com/segmentio/ksuid"
 )
 
-type AuthPayload struct {
+type authPayload struct {
 	Code string `json:"code"`
 }
 
-type OAuth struct {
-	IdToken      string `json:"id_token"`
+type oAuth struct {
+	IDToken      string `json:"id_token"`
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 	ExpiresIn    int    `json:"expires_in"`
 	TokenType    string `json:"token_type"`
 }
 
+// UserInfo - information about the user
 type UserInfo struct {
 	Email      string  `json:"email"`
 	PlayerName *string `json:"playerName"`
 	LastLogin  int32   `json:"lastLogin`
-	UserId     string  `json:"userId"`
+	UserID     string  `json:"userId"`
 }
 
 var keySet *jwk.Set
-var STARTING_SECTOR string = "0011"
-var STARTING_SYSTEM string = "S001"
 
-var USERID_SALT string = "Matt's PBBG!! and Aspen helped :)"
+const startingSector string = "0011"
+const startingSystem string = "S001"
+const userIDSalt string = "Matt's PBBG!! and Aspen helped :)"
 
 func authUser(w http.ResponseWriter, r *http.Request) {
 	oAuth, err := getAuthToken(r.Body)
@@ -48,7 +49,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := parseJwtToken(oAuth.IdToken)
+	token, err := parseJwtToken(oAuth.IDToken)
 
 	if err != nil {
 		Err500(w, []string{`JWT Error - ` + err.Error()})
@@ -62,17 +63,17 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cognitoUserId := claims["cognito:username"].(string)
+	cognitoUserID := claims["cognito:username"].(string)
 
 	h := sha1.New()
-	h.Write([]byte(cognitoUserId + USERID_SALT))
+	h.Write([]byte(cognitoUserID + userIDSalt))
 
 	bs := fmt.Sprintf("%x", h.Sum(nil))
 
-	userIdRune := []rune(bs)
-	userId := string(userIdRune[0:20])
+	userIDRune := []rune(bs)
+	userID := string(userIDRune[0:20])
 
-	userVal, err := dbConns.Redis.Get(userId).Result()
+	userVal, err := dbConns.Redis.Get("user:"+userID).Result()
 
 	var user UserInfo
 
@@ -80,7 +81,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		user = UserInfo{
 			Email:     claims["email"].(string),
 			LastLogin: int32(time.Now().Unix()),
-			UserId:    userId,
+			UserID:    userID,
 		}
 
 		// need to trigger player name ask
@@ -95,7 +96,7 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	sessionId := ksuid.New().String()
+	sessionID := ksuid.New().String()
 
 	jsonUser, err := json.Marshal(user)
 
@@ -104,8 +105,8 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rErr := dbConns.Redis.Set(sessionId, jsonUser, 720*time.Hour).Err()
-	rErr2 := dbConns.Redis.Set(userId, jsonUser, 0).Err()
+	rErr := dbConns.Redis.Set("session:"+sessionID, jsonUser, 720*time.Hour).Err()
+	rErr2 := dbConns.Redis.Set("user:"+userID, jsonUser, 0).Err()
 
 	if rErr != nil {
 		Err500(w, []string{"Error setting session"})
@@ -117,17 +118,17 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 
 	cookie := http.Cookie{
 		Name:     "session_id",
-		Value:    sessionId,
+		Value:    sessionID,
 		Expires:  time.Now().AddDate(0, 0, 30),
 		HttpOnly: true,
 		Secure:   true,
 	}
 
-	playerExists := dbConns.Redis.Exists("player-" + userId).Val()
+	playerExists := dbConns.Redis.Exists("player:" + userID).Val()
 
 	if playerExists == 0 {
-		pData, _ := json.Marshal(Player{CurSectorId: STARTING_SECTOR, CurSystemId: STARTING_SYSTEM})
-		err := dbConns.Redis.Set("player-"+userId, pData, 0).Err()
+		pData, _ := json.Marshal(Player{CurSectorId: startingSector, CurSystemId: startingSystem})
+		err := dbConns.Redis.Set("player:"+userID, pData, 0).Err()
 
 		if err != nil {
 			fmt.Println(err)
@@ -137,40 +138,40 @@ func authUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &cookie)
-	w.Write(json.RawMessage(`{"id": "` + userId + `", "email": "` + user.Email + `"}`))
+	w.Write(json.RawMessage(`{"id": "` + userID + `", "email": "` + user.Email + `"}`))
 }
 
-func getAuthToken(bodyIo io.ReadCloser) (OAuth, error) {
+func getAuthToken(bodyIo io.ReadCloser) (oAuth, error) {
 	decoder := json.NewDecoder(bodyIo)
-	var ap AuthPayload
+	var ap authPayload
 	err := decoder.Decode(&ap)
 
 	if err != nil {
-		return OAuth{}, fmt.Errorf("Error decoding body")
+		return oAuth{}, fmt.Errorf("Error decoding body")
 	}
 
-	response, err := http.PostForm(envVars.OauthUrl+"/token", url.Values{
+	response, err := http.PostForm(envVars.OauthURL+"/token", url.Values{
 		"code":          {ap.Code},
 		"grant_type":    {"authorization_code"},
-		"client_id":     {envVars.ClientId},
+		"client_id":     {envVars.ClientID},
 		"client_secret": {envVars.ClientSecret},
 		"redirect_uri":  {envVars.OauthRedirect},
 	})
 
 	if err != nil {
-		return OAuth{}, err
+		return oAuth{}, err
 	} else if response.StatusCode == 400 {
-		return OAuth{}, fmt.Errorf("Auth Code Used")
+		return oAuth{}, fmt.Errorf("Auth Code Used")
 	}
 
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		return OAuth{}, fmt.Errorf("Error reading OAuth body")
+		return oAuth{}, fmt.Errorf("Error reading OAuth body")
 	}
 
-	var out OAuth
+	var out oAuth
 
 	err = json.Unmarshal(body, &out)
 
@@ -179,7 +180,7 @@ func getAuthToken(bodyIo io.ReadCloser) (OAuth, error) {
 
 func parseJwtToken(tokenStr string) (*jwt.Token, error) {
 	if keySet == nil {
-		tmpKeySet, err := jwk.Fetch(envVars.CognitoUrl)
+		tmpKeySet, err := jwk.Fetch(envVars.CognitoURL)
 
 		if err != nil {
 			return nil, fmt.Errorf("Unable to retrieve cognito key")
