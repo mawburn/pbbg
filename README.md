@@ -1,3 +1,3 @@
-# Matt's PBBG
+# PBBG
 
 No README was bothering me.
