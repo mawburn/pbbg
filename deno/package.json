@@ -1,0 +1,20 @@
+{
+  "name": "deno-starter",
+  "version": "0.0.1",
+  "description": "Starter project for a Deno oak server with ESLint",
+  "main": "src/main.ts",
+  "author": "mawburn <mawburn7@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
+    "prettier-tslint": "^0.4.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.2"
+  }
+}
